@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XQS240J2X8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XQS240J2X8');
+</script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gana dinero en tus horarios libres | MVP</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💸</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        :root {
+            /* Tonos Azul Petróleo */
+            --bg-main: #0B1921; 
+            --bg-surface: rgba(17, 35, 46, 0.7); 
+            --bg-surface-hover: #173242;
+            --bg-input: rgba(11, 25, 33, 0.8);
+            
+            /* Acentos Naranja (hacen un contraste perfecto) */
+            --accent-orange: #F59E0B; 
+            --accent-orange-hover: #D97706;
+            --accent-yellow: #FBBF24;
+            
+            --text-primary: #FFFFFF;
+            --text-secondary: #9CA3AF;
+            --border-color: rgba(30, 56, 71, 0.6);
+            --glow-orange: rgba(245, 158, 11, 0.4);
+        }
+
+        body {
+            background-color: var(--bg-main); 
+            background-image: 
+                radial-gradient(circle at 15% 50px, rgba(245, 158, 11, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 80%, rgba(245, 158, 11, 0.05), transparent 25%);
+            color: var(--text-primary);
+            line-height: 1.5; padding-bottom: 3rem; overflow-x: hidden;
+        }
+
+        /* Agregamos el efecto cristal (Glassmorphism) a los contenedores principales */
+        .turnos-wrapper, .info-card, .form-card {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 5%; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 24px 0; border-bottom: 1px solid var(--border-color);
+            margin-bottom: 3rem; animation: fadeInDown 0.8s ease-out;
+        }
+
+      @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.6); }
+            70% { box-shadow: 0 0 0 12px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow)); 
+            color: #000;
+            border: none; padding: 12px 24px; border-radius: 8px;
+            font-weight: 700; font-size: 1rem; cursor: pointer;
+            transition: all 0.3s ease; text-decoration: none;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            animation: pulseGlow 2s infinite; /* Efecto de latido constante */
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px var(--glow-orange);
+            animation: none; /* Se detiene al pasar el mouse para no marear */
+        }
+
+        .hero { text-align: center; margin-bottom: 4rem; }
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 1.2rem;
+            line-height: 1.15; font-weight: 800; letter-spacing: -0.02em;
+        }
+        .text-highlight {
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
+            background-clip: text; -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; display: inline-block;
+        }
+        .hero p { color: var(--text-secondary); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+        .social-proof {
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; margin-top: 1rem; font-size: 0.85rem; color: var(--text-secondary);
+        }
+        .social-proof i { color: #10B981; }
+
+        .turnos-wrapper {
+            background-color: var(--bg-surface); border-radius: 16px;
+            padding: 2rem; margin-bottom: 4rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .section-title { font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 600; }
+
+        .turnos-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .turno-card {
+            background-color: rgba(8, 16, 30, 0.8); 
+            border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column;
+            cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición más rebotante */
+            position: relative; overflow: hidden;
+        }
+
+        .turno-card:hover {
+            transform: translateY(-8px); 
+            border-color: var(--accent-orange);
+            background-color: var(--bg-surface); 
+            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.15), inset 0 0 20px rgba(245, 158, 11, 0.05);
+        }
+
+        .turno-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--accent-orange), var(--accent-yellow));
+            opacity: 0; transition: opacity 0.3s;
+        }
+
+        
+        .turno-card:hover::before { opacity: 1; }
+        .turno-card.active {
+            border-color: var(--accent-orange); background-color: var(--bg-surface);
+            box-shadow: 0 8px 25px var(--glow-orange);
+        }
+        .turno-card.active::before { opacity: 1; }
+
+        .turno-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; font-weight: 600; }
+        
+        .icon-circle {
+            width: 32px; height: 32px; background-color: rgba(255,255,255,0.05); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all 0.3s;
+        }
+        
+        .turno-card:hover .icon-circle {
+            background-color: var(--glow-orange); color: var(--accent-orange);
+        }
+        .turno-card.active .icon-circle {
+            background-color: var(--glow-orange); color: var(--accent-orange);
+        }
+
+        .turno-details { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.5rem; }
+        .detail-row { display: flex; align-items: center; gap: 12px; font-size: 0.85rem; color: var(--text-secondary); }
+
+        .turno-footer { margin-top: auto; position: relative; min-height: 40px; }
+        
+        .footer-normal {
+            display: flex; align-items: center; justify-content: space-between; width: 100%;
+            transition: all 0.3s ease; opacity: 1; transform: translateY(0); visibility: visible;
+        }
+        
+        .footer-action {
+            position: absolute; top: 0; left: 0; width: 100%;
+            opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease;
+        }
+
+        .turno-card:hover .footer-normal { opacity: 0; visibility: hidden; transform: translateY(-10px); }
+        .turno-card.active .footer-normal { opacity: 0; visibility: hidden; transform: translateY(-10px); }
+
+        .turno-card:hover .footer-action { opacity: 1; visibility: visible; transform: translateY(0); }
+        .turno-card.active .footer-action { opacity: 1; visibility: visible; transform: translateY(0); }
+
+        .user-avatar { width: 30px; height: 30px; background-color: #4B5563; border-radius: 50%; overflow: hidden; }
+        .btn-text { background: none; border: none; color: var(--text-secondary); font-size: 0.9rem; font-weight: 500; transition: color 0.3s; }
+        .turno-card:hover .btn-text { color: var(--accent-orange); }
+
+        .btn-reservar {
+            background-color: var(--accent-orange); color: #000; border: none; padding: 10px 16px;
+            border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.3s;
+        }
+        .btn-reservar:hover { background-color: var(--accent-orange-hover); }
+
+        .carousel-dots {
+            display: flex; justify-content: center; gap: 8px; margin-top: 2rem;
+        }
+        .dot {
+            width: 8px; height: 8px; background-color: var(--border-color); border-radius: 50%; transition: all 0.3s;
+        }
+        .dot.active { background-color: var(--accent-orange); width: 24px; border-radius: 4px; }
+
+        .bottom-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+        .info-card {
+            background-color: var(--bg-surface); padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem;
+            transition: transform 0.3s; border: 1px solid var(--border-color);
+        }
+        .info-card:hover { transform: translateX(5px); border-color: var(--accent-orange); }
+        .info-icon { font-size: 2rem; margin-bottom: 1rem; }
+        .info-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .info-card p { font-size: 0.85rem; color: var(--text-secondary); }
+
+        .form-card {
+            background-color: var(--bg-surface); padding: 2.5rem 2rem; border-radius: 12px;
+            display: flex; flex-direction: column; align-items: center; border: 1px solid var(--border-color);
+            position: relative; overflow: hidden;
+        }
+        .form-card::after {
+            content: ''; position: absolute; top: -50px; right: -50px; width: 150px; height: 150px;
+            background: var(--accent-orange); filter: blur(100px); opacity: 0.15; z-index: 0;
+        }
+        .form-header-icon {
+            width: 48px; height: 48px; background-color: rgba(255,255,255,0.05); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem;
+            color: var(--accent-orange); position: relative; z-index: 1; border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+        .form-card h2, .form-card form, .form-card p { position: relative; z-index: 1; width: 100%; }
+        .form-card h2 { margin-bottom: 1.5rem; text-align: center; font-weight: 800; }
+        .form-group { width: 100%; margin-bottom: 1.2rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; }
+        .form-group input {
+            width: 100%; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--border-color);
+            background-color: var(--bg-input); color: var(--text-primary); outline: none; transition: all 0.3s;
+        }
+        .form-group input:focus { border-color: var(--accent-orange); box-shadow: 0 0 0 3px var(--glow-orange); }
+        .form-group input:focus + label { color: var(--text-primary); }
+        .btn-submit { width: 100%; margin-top: 1rem; padding: 14px; font-size: 1rem; }
+        .form-footer-text { font-size: 0.75rem; color: var(--text-secondary); text-align: center; margin-top: 1.5rem; }
+
+        @media (max-width: 768px) {
+            .bottom-section { grid-template-columns: 1fr; gap: 2rem; }
+            .turnos-wrapper { padding: 1.5rem 1rem; }
+            .hero h1 { font-size: 2.2rem; }
+            
+            .turnos-grid {
+                display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+                padding-bottom: 1.5rem; margin: 0 -1rem; padding-left: 1rem; padding-right: 1rem;
+            }
+            .turno-card { min-width: 85%; flex: 0 0 auto; scroll-snap-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header>
+            <div class="logo">MVP Piloto | Mi cachuelito</div>
+            <a href="#registro" class="btn-primary">Postular ahora</a>
+        </header>
+
+        <section class="hero reveal">
+            <h1><span class="text-highlight">Gana dinero</span> en tus<br>horarios libres.</h1>
+            <p>Monetiza tus tiempos muertos en el campus. Únete a nuestra red, elige tus horarios y genera ingresos extra sin descuidar tus notas.</p>
+            <div class="social-proof"><i class="fa-solid fa-circle-check"></i> Únete a los primeros 50 estudiantes</div>
+        </section>
+
+        <section class="turnos-wrapper reveal" style="transition-delay: 0.2s;">
+            <h2 class="section-title">Vacantes Recientes</h2>
+            
+            <div class="turnos-grid">
+                
+                <div class="turno-card">
+                    <div class="turno-header">
+                        <div class="icon-circle">👱</div><span>Atención al Cliente</span>
+                    </div>
+                    <div class="turno-details">
+                        <div class="detail-row"><i class="fa-regular fa-clock"></i> 14:00 - 17:00</div>
+                        <div class="detail-row"><i class="fa-solid fa-hourglass-half"></i> 3 HORAS</div>
+                        <div class="detail-row"><i class="fa-solid fa-location-dot"></i> A 3 min de tu sede</div>
+                    </div>
+                    <div class="turno-footer">
+                        <div class="footer-normal">
+                            <div class="user-avatar"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" width="100%"></div>
+                            <button class="btn-text">Ver detalles <i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                        <div class="footer-action">
+                            <button class="btn-reservar" onclick="scrollToForm(event)">Reservar Turno</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="turno-card">
+                    <div class="turno-header">
+                        <div class="icon-circle">📦</div><span>Inventario</span>
+                    </div>
+                    <div class="turno-details">
+                        <div class="detail-row"><i class="fa-regular fa-clock"></i> 14:00 - 17:00</div>
+                        <div class="detail-row"><i class="fa-solid fa-hourglass-half"></i> 3 HORAS</div>
+                        <div class="detail-row"><i class="fa-solid fa-location-dot"></i> A 5 min de tu sede</div>
+                    </div>
+                    <div class="turno-footer">
+                        <div class="footer-normal">
+                            <div class="user-avatar"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex" alt="User" width="100%"></div>
+                            <button class="btn-text">Ver detalles <i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                        <div class="footer-action">
+                            <button class="btn-reservar" onclick="scrollToForm(event)">Reservar Turno</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="turno-card">
+                    <div class="turno-header">
+                        <div class="icon-circle">🎬</div><span>Cine</span>
+                    </div>
+                    <div class="turno-details">
+                        <div class="detail-row"><i class="fa-regular fa-clock"></i> 14:00 - 19:00</div>
+                        <div class="detail-row"><i class="fa-solid fa-hourglass-half"></i> 5 HORAS</div>
+                        <div class="detail-row"><i class="fa-solid fa-location-dot"></i> A 5 min de tu sede</div>
+                    </div>
+                    <div class="turno-footer">
+                        <div class="footer-normal">
+                            <div class="user-avatar"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Max" alt="User" width="100%"></div>
+                            <button class="btn-text">Ver detalles <i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                        <div class="footer-action">
+                            <button class="btn-reservar" onclick="scrollToForm(event)">Reservar Turno</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="carousel-dots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+        </section>
+
+        <section class="bottom-section">
+            
+            <div class="como-funciona-container reveal" style="transition-delay: 0.3s;">
+                <h2 class="section-title">¿Por qué unirte?</h2>
+                <div class="info-card">
+                    <div class="info-icon">⚡</div>
+                    <h3>Flexibilidad Total</h3>
+                    <p>Tú decides cuándo trabajar. Toma turnos que calcen perfectamente entre tus clases o en días libres.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">📍</div>
+                    <h3>Cerca de tu Campus</h3>
+                    <p>Todas nuestras oportunidades están geolocalizadas a minutos de tu sede de estudios para que no pierdas tiempo en tráfico.</p>
+                </div>
+            </div>
+
+            <div class="form-wrapper reveal" id="registro" style="transition-delay: 0.4s;">
+                <div class="form-card">
+                    <div class="form-header-icon"><i class="fa-solid fa-rocket"></i></div>
+                    <h2>Aplica al Piloto</h2>
+                    
+                    <form id="leadForm">
+                        <div class="form-group">
+                            <label for="nombre">Nombre completo</label>
+                            <input type="text" id="nombre" placeholder="Ej: Carlos Mendoza" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="whatsapp">WhatsApp</label>
+                            <input type="tel" id="whatsapp" placeholder="+51 999 999 999" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sede">Sede de estudio</label>
+                            <input type="text" id="sede" placeholder="Ej: UPC Monterrico" required>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary btn-submit" id="submitBtn">
+                            Quiero participar <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
+                    
+                    <p class="form-footer-text"><i class="fa-solid fa-lock"></i> Tus datos están 100% seguros y encriptados.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function scrollToForm(e) {
+            e.stopPropagation(); 
+            document.getElementById('registro').scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => { document.getElementById('nombre').focus(); }, 500); 
+        }
+
+        const turnoCards = document.querySelectorAll('.turno-card');
+        turnoCards.forEach(card => {
+            card.addEventListener('click', () => {
+                if (card.classList.contains('active')) return;
+                turnoCards.forEach(turnoCard => turnoCard.classList.remove('active'));
+                card.classList.add('active');
+            });
+        });
+
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, { root: null, threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        const form = document.getElementById('leadForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const FORMSPREE_ENDPOINT = "https://formspree.io/f/xppplaoo"; 
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Procesando...';
+            submitBtn.style.opacity = '0.8'; submitBtn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('Nombre', document.getElementById('nombre').value);
+            formData.append('WhatsApp', document.getElementById('whatsapp').value);
+            formData.append('Sede', document.getElementById('sede').value);
+
+            fetch(FORMSPREE_ENDPOINT, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(response => {
+                if (response.ok) {
+                    submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> ¡Registro Exitoso!';
+                    submitBtn.style.backgroundColor = '#10B981';
+                    submitBtn.style.color = '#FFFFFF'; submitBtn.style.opacity = '1';
+                    
+                    setTimeout(() => {
+                        form.reset();
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.style.backgroundColor = ''; submitBtn.style.color = '';
+                        submitBtn.disabled = false;
+                    }, 3000);
+                } else { throw new Error('Error en el envío'); }
+            })
+            .catch(error => {
+                submitBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Error. Intenta de nuevo';
+                submitBtn.style.backgroundColor = '#EF4444'; 
+                setTimeout(() =>{
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.style.backgroundColor = ''; submitBtn.disabled = false;
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+</html>
