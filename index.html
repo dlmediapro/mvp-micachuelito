@@ -1,460 +1,304 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="a">
 <head>
-    <!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XQS240J2X8"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-XQS240J2X8');
 </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi cachuelito | Turnos de 3 horas para estudiantes que trabajan</title>
+<meta name="description" content="Turnos de unas 3 horas que calzan con tu horario de clases y quedan cerca de tu instituto o universidad. Piloto gratuito para estudiantes en Lima.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%23F5A524%22/><text x=%2250%22 y=%2272%22 font-size=%2262%22 font-weight=%22800%22 text-anchor=%22middle%22 fill=%22%230B1921%22>c</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* Paleta: cambia data-theme en <html> a "a" (petróleo + ámbar), "b" (claro, azul + turquesa) o "c" (carbón + verde) */
+:root,[data-theme=a]{--bg:#0B1921;--s1:#11262F;--s2:#173440;--tx:#F3F7F8;--mu:#A9BAC2;--ln:#24424F;--ac:#F5A524;--ink:#0B1921;--ok:#34D399;--er:#F87171}
+[data-theme=b]{--bg:#F4F7FA;--s1:#FFFFFF;--s2:#E8EFF5;--tx:#10243B;--mu:#4B5E73;--ln:#CBD6E2;--ac:#0E7C86;--ink:#FFFFFF;--ok:#047857;--er:#B91C1C}
+[data-theme=c]{--bg:#0F1412;--s1:#171E1B;--s2:#1F2A25;--tx:#EEF4F1;--mu:#A3B3AB;--ln:#2B3A33;--ac:#3DDC97;--ink:#0F1412;--ok:#3DDC97;--er:#F87171}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ac);outline-offset:3px;border-radius:6px}
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--ln)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.logo{font-weight:800;font-size:1.15rem;text-decoration:none}.logo b{color:var(--ac)}
+.links{display:flex;gap:22px;align-items:center;font-size:.95rem}
+.links a:not(.btn){text-decoration:none;color:var(--mu)}.links a:not(.btn):hover{color:var(--tx)}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--ac);color:var(--ink);border:0;border-radius:10px;padding:13px 22px;font-family:inherit;font-weight:800;font-size:1rem;cursor:pointer;text-decoration:none;transition:transform .15s,filter .15s}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}.btn:active{transform:none}.btn[disabled]{opacity:.7;cursor:wait}
+.btn.ghost{background:transparent;color:var(--tx);border:1px solid var(--ln)}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center;padding:56px 0 72px}
+h1{font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.08;letter-spacing:-.03em;font-weight:800}
+.lead{color:var(--mu);font-size:1.1rem;margin:20px 0 28px;max-width:30em}
+.cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.note{font-size:.85rem;color:var(--mu);margin-top:14px}
+.card{background:var(--s1);border:1px solid var(--ln);border-radius:16px;padding:22px}
+.pl-h{margin-bottom:14px}.pl-h strong{display:block}.pl-h span{font-size:.85rem;color:var(--mu)}
+.grid{display:grid;grid-template-columns:auto repeat(5,1fr);gap:6px;align-items:center}
+.grid span{font-size:.75rem;color:var(--mu);text-align:center}.grid span.r{text-align:left;padding-right:6px}
+.cell{height:40px;border-radius:8px;border:1px solid var(--ln);background:var(--s2);cursor:pointer;transition:background .15s,transform .15s}
+.cell:hover{border-color:var(--ac)}.cell[aria-pressed=true]{background:var(--ac);border-color:var(--ac)}.cell:active{transform:scale(.94)}
+.res{margin-top:16px;display:grid;gap:10px;min-height:92px;align-content:start}
+.empty{font-size:.9rem;color:var(--mu);border:1px dashed var(--ln);border-radius:12px;padding:16px}
+.sh{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--ln);border-radius:12px;padding:12px 14px;background:var(--bg);animation:in .25s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+.sh small{display:block;color:var(--mu);font-size:.78rem}
+.tag{font-size:.7rem;border:1px solid var(--ln);border-radius:99px;padding:2px 8px;color:var(--mu);margin-left:6px;white-space:nowrap;font-weight:400}
+.mini{background:transparent;border:1px solid var(--ac);color:var(--ac);border-radius:8px;padding:8px 12px;font-family:inherit;font-weight:800;cursor:pointer;font-size:.85rem;white-space:nowrap}
+.mini:hover{background:var(--ac);color:var(--ink)}
+section{padding:64px 0}
+h2{font-size:clamp(1.6rem,3.5vw,2.2rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:12px}
+.sub{color:var(--mu);max-width:36em;margin-bottom:32px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;padding:22px 0 0;border-top:2px solid var(--ln);transition:border-color .2s}.steps li:hover{border-top-color:var(--ac)}
+.steps li::before{content:counter(s);display:block;font-weight:800;font-size:2rem;color:var(--ac);margin-bottom:6px}
+.steps h3{font-size:1.1rem;margin-bottom:6px}.steps p{color:var(--mu);font-size:.95rem}
+.reg{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:start}
+.reg ul{list-style:none;color:var(--mu);margin-top:20px;display:grid;gap:10px}.reg li::before{content:"✓ ";color:var(--ok);font-weight:800}
+.fg{margin-bottom:16px}label{display:block;font-size:.85rem;font-weight:600;margin-bottom:6px}
+input,select{width:100%;padding:13px 14px;border-radius:10px;border:1px solid var(--ln);background:var(--bg);color:var(--tx);font:inherit}
+input:focus,select:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px color-mix(in srgb,var(--ac) 35%,transparent)}
+input[aria-invalid=true]{border-color:var(--er)}
+.err{color:var(--er);font-size:.8rem;min-height:1.1em;margin-top:4px}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:.85rem;color:var(--mu);margin-bottom:6px}.chk input{width:auto;margin-top:3px}
+.chk button{background:none;border:0;color:var(--ac);text-decoration:underline;font:inherit;cursor:pointer}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.okp{text-align:center;padding:12px 0}.okp h3{font-size:1.4rem;margin:8px 0}.okp p{color:var(--mu);margin-bottom:18px}.okp .cta{justify-content:center}
+.hide{display:none!important}
+details{border-bottom:1px solid var(--ln);padding:16px 0}summary{cursor:pointer;font-weight:600}details p{color:var(--mu);margin-top:8px;max-width:42em}
+footer{border-top:1px solid var(--ln);padding:28px 0;color:var(--mu);font-size:.85rem}
+footer button{background:none;border:0;color:inherit;text-decoration:underline;font:inherit;cursor:pointer}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--tx);color:var(--bg);padding:12px 18px;border-radius:10px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:50;max-width:90vw}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+dialog{margin:auto;max-width:520px;width:92%;background:var(--s1);color:var(--tx);border:1px solid var(--ln);border-radius:16px;padding:26px}
+dialog::backdrop{background:rgba(0,0,0,.6)}dialog p{color:var(--mu);margin:12px 0 18px;font-size:.92rem}
+.rv{opacity:0;transform:translateY(16px);transition:.6s ease}.rv.on{opacity:1;transform:none}
+@media (max-width:820px){.hero,.reg{grid-template-columns:1fr;gap:32px}.steps{grid-template-columns:1fr}.links a:not(.btn){display:none}.hero{padding-top:32px}.two{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gana dinero en tus horarios libres | MVP</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💸</text></svg>">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        :root {
-            /* Tonos Azul Petróleo */
-            --bg-main: #0B1921; 
-            --bg-surface: rgba(17, 35, 46, 0.7); 
-            --bg-surface-hover: #173242;
-            --bg-input: rgba(11, 25, 33, 0.8);
-            
-            /* Acentos Naranja (hacen un contraste perfecto) */
-            --accent-orange: #F59E0B; 
-            --accent-orange-hover: #D97706;
-            --accent-yellow: #FBBF24;
-            
-            --text-primary: #FFFFFF;
-            --text-secondary: #9CA3AF;
-            --border-color: rgba(30, 56, 71, 0.6);
-            --glow-orange: rgba(245, 158, 11, 0.4);
-        }
-
-        body {
-            background-color: var(--bg-main); 
-            background-image: 
-                radial-gradient(circle at 15% 50px, rgba(245, 158, 11, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 80%, rgba(245, 158, 11, 0.05), transparent 25%);
-            color: var(--text-primary);
-            line-height: 1.5; padding-bottom: 3rem; overflow-x: hidden;
-        }
-
-        /* Agregamos el efecto cristal (Glassmorphism) a los contenedores principales */
-        .turnos-wrapper, .info-card, .form-card {
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 5%; }
-
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 24px 0; border-bottom: 1px solid var(--border-color);
-            margin-bottom: 3rem; animation: fadeInDown 0.8s ease-out;
-        }
-
-      @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.6); }
-            70% { box-shadow: 0 0 0 12px rgba(245, 158, 11, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow)); 
-            color: #000;
-            border: none; padding: 12px 24px; border-radius: 8px;
-            font-weight: 700; font-size: 1rem; cursor: pointer;
-            transition: all 0.3s ease; text-decoration: none;
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            animation: pulseGlow 2s infinite; /* Efecto de latido constante */
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 25px var(--glow-orange);
-            animation: none; /* Se detiene al pasar el mouse para no marear */
-        }
-
-        .hero { text-align: center; margin-bottom: 4rem; }
-        .hero h1 {
-            font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 1.2rem;
-            line-height: 1.15; font-weight: 800; letter-spacing: -0.02em;
-        }
-        .text-highlight {
-            background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
-            background-clip: text; -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent; display: inline-block;
-        }
-        .hero p { color: var(--text-secondary); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
-        .social-proof {
-            display: flex; align-items: center; justify-content: center;
-            gap: 8px; margin-top: 1rem; font-size: 0.85rem; color: var(--text-secondary);
-        }
-        .social-proof i { color: #10B981; }
-
-        .turnos-wrapper {
-            background-color: var(--bg-surface); border-radius: 16px;
-            padding: 2rem; margin-bottom: 4rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .section-title { font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 600; }
-
-        .turnos-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            width: 100%;
-        }
-
-        .turno-card {
-            background-color: rgba(8, 16, 30, 0.8); 
-            border: 1px solid var(--border-color);
-            border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column;
-            cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición más rebotante */
-            position: relative; overflow: hidden;
-        }
-
-        .turno-card:hover {
-            transform: translateY(-8px); 
-            border-color: var(--accent-orange);
-            background-color: var(--bg-surface); 
-            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.15), inset 0 0 20px rgba(245, 158, 11, 0.05);
-        }
-
-        .turno-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-            background: linear-gradient(90deg, var(--accent-orange), var(--accent-yellow));
-            opacity: 0; transition: opacity 0.3s;
-        }
-
-        
-        .turno-card:hover::before { opacity: 1; }
-        .turno-card.active {
-            border-color: var(--accent-orange); background-color: var(--bg-surface);
-            box-shadow: 0 8px 25px var(--glow-orange);
-        }
-        .turno-card.active::before { opacity: 1; }
-
-        .turno-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; font-weight: 600; }
-        
-        .icon-circle {
-            width: 32px; height: 32px; background-color: rgba(255,255,255,0.05); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all 0.3s;
-        }
-        
-        .turno-card:hover .icon-circle {
-            background-color: var(--glow-orange); color: var(--accent-orange);
-        }
-        .turno-card.active .icon-circle {
-            background-color: var(--glow-orange); color: var(--accent-orange);
-        }
-
-        .turno-details { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.5rem; }
-        .detail-row { display: flex; align-items: center; gap: 12px; font-size: 0.85rem; color: var(--text-secondary); }
-
-        .turno-footer { margin-top: auto; position: relative; min-height: 40px; }
-        
-        .footer-normal {
-            display: flex; align-items: center; justify-content: space-between; width: 100%;
-            transition: all 0.3s ease; opacity: 1; transform: translateY(0); visibility: visible;
-        }
-        
-        .footer-action {
-            position: absolute; top: 0; left: 0; width: 100%;
-            opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease;
-        }
-
-        .turno-card:hover .footer-normal { opacity: 0; visibility: hidden; transform: translateY(-10px); }
-        .turno-card.active .footer-normal { opacity: 0; visibility: hidden; transform: translateY(-10px); }
-
-        .turno-card:hover .footer-action { opacity: 1; visibility: visible; transform: translateY(0); }
-        .turno-card.active .footer-action { opacity: 1; visibility: visible; transform: translateY(0); }
-
-        .user-avatar { width: 30px; height: 30px; background-color: #4B5563; border-radius: 50%; overflow: hidden; }
-        .btn-text { background: none; border: none; color: var(--text-secondary); font-size: 0.9rem; font-weight: 500; transition: color 0.3s; }
-        .turno-card:hover .btn-text { color: var(--accent-orange); }
-
-        .btn-reservar {
-            background-color: var(--accent-orange); color: #000; border: none; padding: 10px 16px;
-            border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.3s;
-        }
-        .btn-reservar:hover { background-color: var(--accent-orange-hover); }
-
-        .carousel-dots {
-            display: flex; justify-content: center; gap: 8px; margin-top: 2rem;
-        }
-        .dot {
-            width: 8px; height: 8px; background-color: var(--border-color); border-radius: 50%; transition: all 0.3s;
-        }
-        .dot.active { background-color: var(--accent-orange); width: 24px; border-radius: 4px; }
-
-        .bottom-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
-        .info-card {
-            background-color: var(--bg-surface); padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem;
-            transition: transform 0.3s; border: 1px solid var(--border-color);
-        }
-        .info-card:hover { transform: translateX(5px); border-color: var(--accent-orange); }
-        .info-icon { font-size: 2rem; margin-bottom: 1rem; }
-        .info-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
-        .info-card p { font-size: 0.85rem; color: var(--text-secondary); }
-
-        .form-card {
-            background-color: var(--bg-surface); padding: 2.5rem 2rem; border-radius: 12px;
-            display: flex; flex-direction: column; align-items: center; border: 1px solid var(--border-color);
-            position: relative; overflow: hidden;
-        }
-        .form-card::after {
-            content: ''; position: absolute; top: -50px; right: -50px; width: 150px; height: 150px;
-            background: var(--accent-orange); filter: blur(100px); opacity: 0.15; z-index: 0;
-        }
-        .form-header-icon {
-            width: 48px; height: 48px; background-color: rgba(255,255,255,0.05); border-radius: 12px;
-            display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem;
-            color: var(--accent-orange); position: relative; z-index: 1; border: 1px solid rgba(245, 158, 11, 0.2);
-        }
-        .form-card h2, .form-card form, .form-card p { position: relative; z-index: 1; width: 100%; }
-        .form-card h2 { margin-bottom: 1.5rem; text-align: center; font-weight: 800; }
-        .form-group { width: 100%; margin-bottom: 1.2rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; }
-        .form-group input {
-            width: 100%; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--border-color);
-            background-color: var(--bg-input); color: var(--text-primary); outline: none; transition: all 0.3s;
-        }
-        .form-group input:focus { border-color: var(--accent-orange); box-shadow: 0 0 0 3px var(--glow-orange); }
-        .form-group input:focus + label { color: var(--text-primary); }
-        .btn-submit { width: 100%; margin-top: 1rem; padding: 14px; font-size: 1rem; }
-        .form-footer-text { font-size: 0.75rem; color: var(--text-secondary); text-align: center; margin-top: 1.5rem; }
-
-        @media (max-width: 768px) {
-            .bottom-section { grid-template-columns: 1fr; gap: 2rem; }
-            .turnos-wrapper { padding: 1.5rem 1rem; }
-            .hero h1 { font-size: 2.2rem; }
-            
-            .turnos-grid {
-                display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
-                padding-bottom: 1.5rem; margin: 0 -1rem; padding-left: 1rem; padding-right: 1rem;
-            }
-            .turno-card { min-width: 85%; flex: 0 0 auto; scroll-snap-align: center; }
-        }
-    </style>
+/* Movimiento */
+main{position:relative}
+.bg{position:absolute;left:0;right:0;top:0;height:760px;overflow:hidden;pointer-events:none;z-index:-1}
+.bg i{position:absolute;width:420px;height:420px;border-radius:50%;filter:blur(90px);opacity:.28;background:var(--ac);animation:drift 14s ease-in-out infinite alternate}
+.bg i:nth-child(1){left:-120px;top:-80px}.bg i:nth-child(2){right:-80px;top:180px;background:var(--s2);opacity:.9;animation-duration:18s}
+@keyframes drift{to{transform:translate(60px,40px) scale(1.15)}}
+@keyframes up{from{opacity:0;transform:translateY(24px)}}
+.hero h1,.hero .lead,.hero .cta,.hero .note,.hero .card{animation:up .7s cubic-bezier(.2,.7,.2,1) both}
+.hero h1{animation-delay:.05s}.hero .lead{animation-delay:.2s}.hero .cta{animation-delay:.35s}.hero .note{animation-delay:.5s}.hero .card{animation-delay:.3s}
+.u{background:linear-gradient(var(--ac),var(--ac)) 0 92%/0 .14em no-repeat;animation:ul 1s .9s ease forwards}
+@keyframes ul{to{background-size:100% .14em}}
+.btn{position:relative;overflow:hidden}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-120%)}
+.btn:hover::after{transform:translateX(120%);transition:transform .7s}.btn.ghost::after{display:none}
+.tilt{position:relative;overflow:hidden;transition:transform .2s ease-out}
+.tilt::before{content:"";position:absolute;inset:0;background:radial-gradient(260px circle at var(--mx,50%) var(--my,0%),color-mix(in srgb,var(--ac) 18%,transparent),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
+.tilt:hover::before{opacity:1}
+.hint .cell[data-k="1-1"],.hint .cell[data-k="2-1"],.hint .cell[data-k="3-0"]{animation:ping 1.8s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ac) 55%,transparent)}70%,100%{box-shadow:0 0 0 10px transparent}}
+.cell.pop{animation:pop .3s}@keyframes pop{50%{transform:scale(1.25)}}
+.sh{animation-fill-mode:backwards}.sh:nth-child(2){animation-delay:.08s}.sh:nth-child(3){animation-delay:.16s}.sh:nth-child(4){animation-delay:.24s}
+.meter{height:6px;background:var(--s2);border-radius:9px;margin-top:14px;overflow:hidden}
+#bar,#fbar{height:100%;width:0;background:var(--ac);transition:width .4s cubic-bezier(.2,.8,.2,1)}
+#f .meter{margin:0 0 18px}.cnt{font-size:.8rem;color:var(--mu);margin-top:8px}
+.rv.on .steps li{animation:up .6s backwards}.rv.on .steps li:nth-child(2){animation-delay:.15s}.rv.on .steps li:nth-child(3){animation-delay:.3s}
+#sp{position:fixed;top:0;left:0;height:3px;width:0;background:var(--ac);z-index:60}
+#mcta{position:fixed;left:16px;right:16px;bottom:16px;z-index:30;transform:translateY(140%);transition:transform .4s;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+#mcta.on{transform:none}@media(min-width:821px){#mcta{display:none}}
+.ck circle{stroke-dasharray:152;stroke-dashoffset:152;animation:dr .6s forwards}.ck path{stroke-dasharray:40;stroke-dashoffset:40;animation:dr .5s .5s forwards}
+@keyframes dr{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.ck circle,.ck path{stroke-dashoffset:0}}
+</style>
 </head>
-<body>
+<body id="top">
+<header><div class="wrap nav">
+  <a class="logo" href="#top">Mi <b>cachuelito</b></a>
+  <nav class="links" aria-label="Principal"><a href="#como">Cómo funciona</a><a href="#empresas">Empresas</a><a class="btn" href="#registro" data-ev="cta_header">Unirme al piloto</a></nav>
+</div></header>
 
-    <div class="container">
-        
-        <header>
-            <div class="logo">MVP Piloto | Mi cachuelito</div>
-            <a href="#registro" class="btn-primary">Postular ahora</a>
-        </header>
+<main>
+<div class="bg" aria-hidden="true"><i></i><i></i></div>
+<div class="wrap hero">
+  <div>
+    <h1>Trabaja en tus <span class="u">horas libres</span>, no en las de clase.</h1>
+    <p class="lead">Turnos de unas 3 horas que calzan con tu horario de clases y quedan cerca de tu instituto o universidad.</p>
+    <div class="cta"><a class="btn" href="#registro" data-ev="cta_hero">Registra tu horario libre</a><a class="btn ghost" href="#como" data-ev="cta_como">Ver cómo funciona</a></div>
+    <p class="note">Piloto gratuito para estudiantes de educación superior en Lima Metropolitana.</p>
+  </div>
+  <div class="card tilt" id="tilt" aria-labelledby="pl-t">
+    <div class="pl-h"><strong id="pl-t">Prueba cómo funcionaría</strong><span>Marca tus horas libres de la semana y mira turnos de ejemplo.</span></div>
+    <div class="grid hint" id="grid" role="group" aria-label="Horas libres"></div>
+    <div class="meter" aria-hidden="true"><div id="bar"></div></div><p class="cnt">Ventanas libres marcadas: <b id="cnt">0</b> de 15</p>
+    <div class="res" id="res" aria-live="polite"></div>
+  </div>
+</div>
 
-        <section class="hero reveal">
-            <h1><span class="text-highlight">Gana dinero</span> en tus<br>horarios libres.</h1>
-            <p>Monetiza tus tiempos muertos en el campus. Únete a nuestra red, elige tus horarios y genera ingresos extra sin descuidar tus notas.</p>
-            <div class="social-proof"><i class="fa-solid fa-circle-check"></i> Únete a los primeros 50 estudiantes</div>
-        </section>
+<section id="como"><div class="wrap rv">
+  <h2>Así funciona</h2>
+  <p class="sub">Pensado para que tus clases no cambien: el turno se adapta a ti.</p>
+  <ol class="steps">
+    <li><h3>Indicas tus horas libres</h3><p>Nos dices cuándo estudias y cuándo puedes trabajar.</p></li>
+    <li><h3>Eliges un turno de unas 3 horas</h3><p>Verás turnos cerca de tu sede que no chocan con tus clases.</p></li>
+    <li><h3>Trabajas por turno</h3><p>Tú decides cuántos turnos tomar, con hora de término clara.</p></li>
+  </ol>
+</div></section>
 
-        <section class="turnos-wrapper reveal" style="transition-delay: 0.2s;">
-            <h2 class="section-title">Vacantes Recientes</h2>
-            
-            <div class="turnos-grid">
-                
-                <div class="turno-card">
-                    <div class="turno-header">
-                        <div class="icon-circle">👱</div><span>Atención al Cliente</span>
-                    </div>
-                    <div class="turno-details">
-                        <div class="detail-row"><i class="fa-regular fa-clock"></i> 14:00 - 17:00</div>
-                        <div class="detail-row"><i class="fa-solid fa-hourglass-half"></i> 3 HORAS</div>
-                        <div class="detail-row"><i class="fa-solid fa-location-dot"></i> A 3 min de tu sede</div>
-                    </div>
-                    <div class="turno-footer">
-                        <div class="footer-normal">
-                            <div class="user-avatar"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" width="100%"></div>
-                            <button class="btn-text">Ver detalles <i class="fa-solid fa-chevron-right"></i></button>
-                        </div>
-                        <div class="footer-action">
-                            <button class="btn-reservar" onclick="scrollToForm(event)">Reservar Turno</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="turno-card">
-                    <div class="turno-header">
-                        <div class="icon-circle">📦</div><span>Inventario</span>
-                    </div>
-                    <div class="turno-details">
-                        <div class="detail-row"><i class="fa-regular fa-clock"></i> 14:00 - 17:00</div>
-                        <div class="detail-row"><i class="fa-solid fa-hourglass-half"></i> 3 HORAS</div>
-                        <div class="detail-row"><i class="fa-solid fa-location-dot"></i> A 5 min de tu sede</div>
-                    </div>
-                    <div class="turno-footer">
-                        <div class="footer-normal">
-                            <div class="user-avatar"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex" alt="User" width="100%"></div>
-                            <button class="btn-text">Ver detalles <i class="fa-solid fa-chevron-right"></i></button>
-                        </div>
-                        <div class="footer-action">
-                            <button class="btn-reservar" onclick="scrollToForm(event)">Reservar Turno</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="turno-card">
-                    <div class="turno-header">
-                        <div class="icon-circle">🎬</div><span>Cine</span>
-                    </div>
-                    <div class="turno-details">
-                        <div class="detail-row"><i class="fa-regular fa-clock"></i> 14:00 - 19:00</div>
-                        <div class="detail-row"><i class="fa-solid fa-hourglass-half"></i> 5 HORAS</div>
-                        <div class="detail-row"><i class="fa-solid fa-location-dot"></i> A 5 min de tu sede</div>
-                    </div>
-                    <div class="turno-footer">
-                        <div class="footer-normal">
-                            <div class="user-avatar"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Max" alt="User" width="100%"></div>
-                            <button class="btn-text">Ver detalles <i class="fa-solid fa-chevron-right"></i></button>
-                        </div>
-                        <div class="footer-action">
-                            <button class="btn-reservar" onclick="scrollToForm(event)">Reservar Turno</button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="carousel-dots">
-                <div class="dot active"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-            </div>
-
-        </section>
-
-        <section class="bottom-section">
-            
-            <div class="como-funciona-container reveal" style="transition-delay: 0.3s;">
-                <h2 class="section-title">¿Por qué unirte?</h2>
-                <div class="info-card">
-                    <div class="info-icon">⚡</div>
-                    <h3>Flexibilidad Total</h3>
-                    <p>Tú decides cuándo trabajar. Toma turnos que calcen perfectamente entre tus clases o en días libres.</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">📍</div>
-                    <h3>Cerca de tu Campus</h3>
-                    <p>Todas nuestras oportunidades están geolocalizadas a minutos de tu sede de estudios para que no pierdas tiempo en tráfico.</p>
-                </div>
-            </div>
-
-            <div class="form-wrapper reveal" id="registro" style="transition-delay: 0.4s;">
-                <div class="form-card">
-                    <div class="form-header-icon"><i class="fa-solid fa-rocket"></i></div>
-                    <h2>Aplica al Piloto</h2>
-                    
-                    <form id="leadForm">
-                        <div class="form-group">
-                            <label for="nombre">Nombre completo</label>
-                            <input type="text" id="nombre" placeholder="Ej: Carlos Mendoza" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="whatsapp">WhatsApp</label>
-                            <input type="tel" id="whatsapp" placeholder="+51 999 999 999" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="sede">Sede de estudio</label>
-                            <input type="text" id="sede" placeholder="Ej: UPC Monterrico" required>
-                        </div>
-                        
-                        <button type="submit" class="btn-primary btn-submit" id="submitBtn">
-                            Quiero participar <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-                    </form>
-                    
-                    <p class="form-footer-text"><i class="fa-solid fa-lock"></i> Tus datos están 100% seguros y encriptados.</p>
-                </div>
-            </div>
-        </section>
+<section id="registro"><div class="wrap reg rv">
+  <div>
+    <h2>Únete al piloto</h2>
+    <p class="sub">Déjanos tu disponibilidad y te escribiremos por WhatsApp cuando haya turnos para ti.</p>
+    <ul><li>Gratis para estudiantes durante el piloto</li><li>Eliges solo turnos que encajan con tu horario</li><li>Te contactamos solo por este proyecto</li></ul>
+  </div>
+  <div class="card">
+    <form id="f" novalidate>
+      <div class="meter" aria-hidden="true"><div id="fbar"></div></div>
+      <div class="fg"><label for="nombre">Nombre completo</label><input id="nombre" name="nombre" autocomplete="name" placeholder="Ej.: Carlos Mendoza" required><div class="err" id="e-nombre"></div></div>
+      <div class="fg"><label for="whatsapp">WhatsApp</label><input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="999 999 999" required><div class="err" id="e-whatsapp"></div></div>
+      <div class="fg"><label for="sede">Instituto o universidad y sede</label><input id="sede" name="institucion" placeholder="Ej.: UPC Monterrico" required><div class="err" id="e-sede"></div></div>
+      <div class="fg"><label for="trabaja">¿Trabajas actualmente?</label><select id="trabaja" name="trabaja" required><option value="">Elige una opción</option><option>Sí, trabajo actualmente</option><option>No, pero busco trabajo</option><option>No por ahora</option></select><div class="err" id="e-trabaja"></div></div>
+      <div class="fg"><label for="horas">Días y horas libres</label><input id="horas" name="horas" placeholder="Ej.: lunes y miércoles por la tarde"><div class="err" id="e-horas"></div></div>
+      <input type="hidden" name="turno" id="turno"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+      <div class="chk"><input type="checkbox" id="consent" name="consentimiento" required><label for="consent" style="font-weight:400;margin:0">Acepto que me contacten por WhatsApp. <button type="button" data-priv>Ver cómo usamos mis datos</button></label></div>
+      <div class="err" id="e-consent"></div>
+      <button class="btn" id="sb" style="width:100%;margin-top:10px" type="submit">Enviar mi disponibilidad</button>
+    </form>
+    <div class="okp hide" id="ok">
+      <svg class="ck" viewBox="0 0 52 52" width="64" height="64" aria-hidden="true"><circle cx="26" cy="26" r="24" fill="none" stroke="var(--ok)" stroke-width="3"/><path d="M14 27l8 8 16-17" fill="none" stroke="var(--ok)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h3>¡Listo, te escribiremos por WhatsApp!</h3>
+      <p>¿Quieres que te consideremos para un turno de prueba?</p>
+      <div class="cta"><button class="btn" id="trial" type="button">Sí, quiero un turno de prueba</button><button class="btn ghost" id="share" type="button">Invitar a un compañero</button></div>
     </div>
+  </div>
+</div></section>
 
-    <script>
-        function scrollToForm(e) {
-            e.stopPropagation(); 
-            document.getElementById('registro').scrollIntoView({ behavior: 'smooth' });
-            setTimeout(() => { document.getElementById('nombre').focus(); }, 500); 
-        }
+<section id="empresas"><div class="wrap reg rv">
+  <div>
+    <h2>¿Tu empresa tiene horas de mucha demanda?</h2>
+    <p class="sub">Publica un turno corto y conversemos. Primer piloto sin compromiso.</p>
+  </div>
+  <div class="card">
+    <form id="fe" novalidate>
+      <div class="two">
+        <div class="fg"><label for="empresa">Empresa</label><input id="empresa" name="empresa" autocomplete="organization" required><div class="err" id="e-empresa"></div></div>
+        <div class="fg"><label for="contacto">WhatsApp o correo</label><input id="contacto" name="contacto" required><div class="err" id="e-contacto"></div></div>
+        <div class="fg"><label for="rubro">Rubro</label><select id="rubro" name="rubro" required><option value="">Elige un rubro</option><option>Retail</option><option>Restaurantes</option><option>Eventos</option><option>Atención al cliente</option><option>Otro</option></select><div class="err" id="e-rubro"></div></div>
+        <div class="fg"><label for="picos">¿Cuándo tienes más demanda?</label><input id="picos" name="picos" placeholder="Ej.: fines de semana por la tarde"></div>
+      </div>
+      <button class="btn" id="sbe" type="submit">Quiero conversar</button>
+      <p class="err" id="e-fe" style="margin-top:10px"></p>
+    </form>
+    <div class="okp hide" id="oke"><h3>¡Gracias! Te contactaremos pronto.</h3><p>Conversaremos sobre tus horas de mayor demanda.</p></div>
+  </div>
+</div></section>
 
-        const turnoCards = document.querySelectorAll('.turno-card');
-        turnoCards.forEach(card => {
-            card.addEventListener('click', () => {
-                if (card.classList.contains('active')) return;
-                turnoCards.forEach(turnoCard => turnoCard.classList.remove('active'));
-                card.classList.add('active');
-            });
-        });
+<section><div class="wrap rv">
+  <h2>Preguntas frecuentes</h2>
+  <details><summary>¿Tiene costo para el estudiante?</summary><p>No. El piloto es gratuito para estudiantes.</p></details>
+  <details><summary>¿Los turnos de arriba son reales?</summary><p>Son ejemplos ilustrativos para mostrar cómo funcionaría. Estamos validando la idea con estudiantes y empresas, y te escribiremos cuando haya turnos disponibles.</p></details>
+  <details><summary>¿Qué hacen con mis datos?</summary><p>Los usamos solo para este proyecto académico y para contactarte. <button type="button" class="mini" data-priv>Leer más</button></p></details>
+</div></section>
+</main>
 
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target); 
-                }
-            });
-        }, { root: null, threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-        revealElements.forEach(el => revealObserver.observe(el));
+<footer><div class="wrap">Mi cachuelito · Proyecto académico de validación (Modelos de Negocios y Startups) · Contacto: <span data-mail></span> · <button type="button" data-priv>Privacidad</button></div></footer>
 
-        const form = document.getElementById('leadForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const FORMSPREE_ENDPOINT = "https://formspree.io/f/xppplaoo"; 
+<div id="sp"></div><a class="btn" id="mcta" href="#registro" data-ev="cta_sticky">Registra tu horario libre</a>
+<div class="toast" id="toast" role="status"></div>
+<dialog id="dlg" aria-labelledby="dt"><h3 id="dt">Cómo usamos tus datos</h3>
+  <p>Usamos tu nombre, WhatsApp, institución y disponibilidad solo para este proyecto académico de validación y para escribirte sobre turnos de prueba. No los vendemos. Los formularios los recibe el servicio Formspree y medimos las visitas con Google Analytics. Puedes pedir que borremos tus datos escribiendo a <span data-mail></span>.</p>
+  <button class="btn" id="dcl" type="button">Entendido</button></dialog>
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Procesando...';
-            submitBtn.style.opacity = '0.8'; submitBtn.disabled = true;
+<script>
+const EP="https://formspree.io/f/xppplaoo";
+const MAIL="[CORREO DEL EQUIPO]"; // reemplaza por el correo real
+document.querySelectorAll("[data-mail]").forEach(e=>e.textContent=MAIL);
+const $=id=>document.getElementById(id);
+const track=(n,p)=>{window.gtag&&gtag("event",n,p||{})};
+document.querySelectorAll("[data-ev]").forEach(e=>e.addEventListener("click",()=>track(e.dataset.ev)));
 
-            const formData = new FormData();
-            formData.append('Nombre', document.getElementById('nombre').value);
-            formData.append('WhatsApp', document.getElementById('whatsapp').value);
-            formData.append('Sede', document.getElementById('sede').value);
+/* Planificador interactivo (turnos de ejemplo, no reales) */
+const D=["Lun","Mar","Mié","Jue","Vie"],S=["Mañana","Tarde","Noche"];
+const SH=[
+ {d:0,s:0,t:"Apoyo en tienda",h:"09:00 – 12:00",m:4},{d:1,s:1,t:"Inventario",h:"14:00 – 17:00",m:5},
+ {d:2,s:1,t:"Atención al cliente",h:"14:00 – 17:00",m:3},{d:3,s:2,t:"Apoyo en cine",h:"18:00 – 21:00",m:5},
+ {d:4,s:1,t:"Reparto en local",h:"15:00 – 18:00",m:6},{d:4,s:2,t:"Atención en restaurante",h:"19:00 – 22:00",m:4},
+ {d:1,s:0,t:"Atención al cliente",h:"08:00 – 11:00",m:3}];
+const sel=new Set();let used=false;
+$("grid").innerHTML="<span></span>"+D.map(d=>`<span>${d}</span>`).join("")+S.map((s,si)=>`<span class="r">${s}</span>`+D.map((d,di)=>`<button type="button" class="cell" aria-pressed="false" aria-label="${d} ${s.toLowerCase()}" data-k="${di}-${si}"></button>`).join("")).join("");
+function render(){
+  const m=SH.map((x,i)=>({...x,i})).filter(x=>sel.has(x.d+"-"+x.s));
+  $("res").innerHTML=m.length?m.map(x=>`<div class="sh"><div><strong>${x.t}</strong><span class="tag">Ejemplo</span><small>${D[x.d]} · ${x.h} · 3 horas · a ~${x.m} min de tu sede</small></div><button type="button" class="mini" data-i="${x.i}">Me interesa</button></div>`).join(""):`<div class="empty">${sel.size?"Aún no hay turnos de ejemplo para esas horas. Déjanos tu disponibilidad y te avisaremos.":"Marca tus horas libres para ver turnos de ejemplo."}</div>`;
+  $("horas").value=[...sel].sort().map(k=>{const [a,b]=k.split("-");return D[a]+" "+S[b].toLowerCase()}).join(", ");
+  tween($("cnt"),sel.size);$("bar").style.width=sel.size/15*100+"%";
+}
+$("grid").addEventListener("click",e=>{const b=e.target.closest(".cell");if(!b)return;const k=b.dataset.k,on=!sel.has(k);on?sel.add(k):sel.delete(k);b.setAttribute("aria-pressed",on);b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");$("grid").classList.remove("hint");if(!used){used=true;track("planner_use")}render()});
+$("res").addEventListener("click",e=>{const b=e.target.closest(".mini");if(!b)return;const x=SH[b.dataset.i];$("turno").value=x.t+" ("+D[x.d]+" "+x.h+")";track("shift_interest",{shift:x.t});toast("Anotamos tu interés en «"+x.t+"». Completa tu registro para avisarte.");$("registro").scrollIntoView();setTimeout(()=>$("nombre").focus(),500)});
+render();$("horas").value="";
 
-            fetch(FORMSPREE_ENDPOINT, {
-                method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
-            })
-            .then(response => {
-                if (response.ok) {
-                    submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> ¡Registro Exitoso!';
-                    submitBtn.style.backgroundColor = '#10B981';
-                    submitBtn.style.color = '#FFFFFF'; submitBtn.style.opacity = '1';
-                    
-                    setTimeout(() => {
-                        form.reset();
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.style.backgroundColor = ''; submitBtn.style.color = '';
-                        submitBtn.disabled = false;
-                    }, 3000);
-                } else { throw new Error('Error en el envío'); }
-            })
-            .catch(error => {
-                submitBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Error. Intenta de nuevo';
-                submitBtn.style.backgroundColor = '#EF4444'; 
-                setTimeout(() =>{
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.style.backgroundColor = ''; submitBtn.disabled = false;
-                }, 3000);
-            });
-        });
-    </script>
+function toast(t){const e=$("toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("on"),3500)}
+const post=fd=>fetch(EP,{method:"POST",body:fd,headers:{Accept:"application/json"}}).then(r=>{if(!r.ok)throw 0});
+const origen=new URLSearchParams(location.search).get("utm_source")||"directo";
+function bad(id,msg){const i=$(id);i.setAttribute("aria-invalid","true");$("e-"+id).textContent=msg;return 1}
+function clear(f){f.querySelectorAll("input,select").forEach(i=>i.removeAttribute("aria-invalid"));f.querySelectorAll(".err").forEach(e=>e.textContent="")}
+function busy(b,on,txt){b.disabled=on;b.dataset.t=b.dataset.t||b.textContent;b.textContent=on?txt:b.dataset.t}
+
+/* Registro de estudiantes */
+let started=false,wa="";
+$("f").addEventListener("focusin",()=>{if(!started){started=true;track("form_start")}});
+$("f").addEventListener("submit",e=>{
+  e.preventDefault();clear($("f"));let n=0;
+  if($("nombre").value.trim().length<3)n+=bad("nombre","Escribe tu nombre completo.");
+  const w=$("whatsapp").value.replace(/[\s-]/g,"");
+  if(!/^(\+?51)?9\d{8}$/.test(w))n+=bad("whatsapp","Ingresa un celular de 9 dígitos que empiece con 9.");
+  if($("sede").value.trim().length<2)n+=bad("sede","Indica tu institución y sede.");
+  if(!$("trabaja").value)n+=bad("trabaja","Elige una opción.");
+  if(!$("consent").checked){$("e-consent").textContent="Necesitamos tu autorización para contactarte.";n++}
+  if(n)return;
+  wa=w;const fd=new FormData($("f"));fd.set("Tipo","Estudiante");fd.set("Origen",origen);fd.delete("consentimiento");fd.set("Consentimiento","Sí");
+  busy($("sb"),true,"Enviando…");
+  post(fd).then(()=>{track("generate_lead",{tipo:"estudiante",origen});$("f").classList.add("hide");$("ok").classList.remove("hide");confetti();done=true;sync();$("ok").scrollIntoView({block:"center"})})
+  .catch(()=>{busy($("sb"),false);toast("No pudimos enviar tus datos. Intenta de nuevo.")});
+});
+$("trial").addEventListener("click",()=>{const fd=new FormData();fd.set("Tipo","Solicita turno de prueba");fd.set("WhatsApp",wa);fd.set("Origen",origen);busy($("trial"),true,"Enviando…");
+  post(fd).then(()=>{track("trial_request");$("trial").textContent="¡Anotado!";toast("Te consideraremos para un turno de prueba.")}).catch(()=>{busy($("trial"),false);toast("No pudimos registrar tu solicitud. Intenta de nuevo.")})});
+$("share").addEventListener("click",()=>{track("share");window.open("https://wa.me/?text="+encodeURIComponent("Mira Mi cachuelito: turnos de 3 horas que calzan con tus clases. "+location.origin+location.pathname),"_blank","noopener")});
+
+/* Formulario de empresas */
+$("fe").addEventListener("submit",e=>{
+  e.preventDefault();clear($("fe"));let n=0;
+  if($("empresa").value.trim().length<2)n+=bad("empresa","Indica el nombre de la empresa.");
+  if($("contacto").value.trim().length<6)n+=bad("contacto","Déjanos un WhatsApp o correo.");
+  if(!$("rubro").value)n+=bad("rubro","Elige un rubro.");
+  if(n)return;
+  const fd=new FormData($("fe"));fd.set("Tipo","Empresa");fd.set("Origen",origen);busy($("sbe"),true,"Enviando…");
+  post(fd).then(()=>{track("generate_lead",{tipo:"empresa",origen});$("fe").classList.add("hide");$("oke").classList.remove("hide")})
+  .catch(()=>{busy($("sbe"),false);$("e-fe").textContent="No pudimos enviar tus datos. Intenta de nuevo."});
+});
+
+/* Movimiento */
+const calm=matchMedia("(prefers-reduced-motion:reduce)").matches,fine=matchMedia("(pointer:fine)").matches;
+function tween(el,to){const a=+el.textContent,t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/350);el.textContent=Math.round(a+(to-a)*k);if(k<1)requestAnimationFrame(f)})(t0)}
+addEventListener("scroll",()=>{const h=document.documentElement;$("sp").style.width=Math.min(100,scrollY/(h.scrollHeight-innerHeight)*100)+"%"},{passive:true});
+const tl=$("tilt");
+if(fine&&!calm){tl.addEventListener("pointermove",e=>{const r=tl.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;tl.style.transform=`perspective(900px) rotateY(${(x-.5)*6}deg) rotateX(${(.5-y)*6}deg)`;tl.style.setProperty("--mx",x*100+"%");tl.style.setProperty("--my",y*100+"%")});tl.addEventListener("pointerleave",()=>tl.style.transform="")}
+const mc=$("mcta");let inHero=true,inReg=false,done=false;
+const sync=()=>mc.classList.toggle("on",!inHero&&!inReg&&!done);
+new IntersectionObserver(e=>{inHero=e[0].isIntersecting;sync()}).observe(document.querySelector(".hero"));
+new IntersectionObserver(e=>{inReg=e[0].isIntersecting;sync()}).observe($("registro"));
+function prog(){const v=[$("nombre").value.trim().length>=3,/^(\+?51)?9\d{8}$/.test($("whatsapp").value.replace(/[\s-]/g,"")),$("sede").value.trim().length>=2,!!$("trabaja").value,$("consent").checked];$("fbar").style.width=v.filter(Boolean).length*20+"%"}
+$("f").addEventListener("input",prog);$("f").addEventListener("change",prog);
+function confetti(){if(calm)return;const r=$("ok").getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+60,c=["#F5A524","#34D399","#60A5FA","#F472B6","#FBBF24"];for(let i=0;i<40;i++){const p=document.createElement("i");p.style.cssText=`position:fixed;left:${cx}px;top:${cy}px;width:8px;height:12px;background:${c[i%5]};z-index:70;pointer-events:none;border-radius:2px`;document.body.appendChild(p);const a=Math.random()*Math.PI*2,d=120+Math.random()*220;p.animate([{transform:"translate(0,0) rotate(0)",opacity:1},{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d+180}px) rotate(${Math.random()*720}deg)`,opacity:0}],{duration:1300+Math.random()*900,easing:"cubic-bezier(.2,.7,.3,1)"}).onfinish=()=>p.remove()}}
+
+/* Privacidad, revelado al hacer scroll */
+document.querySelectorAll("[data-priv]").forEach(b=>b.addEventListener("click",()=>$("dlg").showModal()));
+$("dcl").addEventListener("click",()=>$("dlg").close());
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add("on");io.unobserve(x.target)}}),{threshold:.08});
+document.querySelectorAll(".rv").forEach(e=>io.observe(e));
+</script>
 </body>
 </html>
