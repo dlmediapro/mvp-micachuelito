@@ -34,8 +34,8 @@ header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 8
 .btn{display:inline-flex;align-items:center;justify-content:center;background:var(--ac);color:var(--ink);border:0;border-radius:10px;padding:13px 22px;font-family:inherit;font-weight:800;font-size:1rem;cursor:pointer;text-decoration:none;transition:transform .15s,filter .15s}
 .btn:hover{filter:brightness(1.08);transform:translateY(-1px)}.btn:active{transform:none}.btn[disabled]{opacity:.7;cursor:wait}
 .btn.ghost{background:transparent;color:var(--tx);border:1px solid var(--ln)}
-.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center;padding:56px 0 72px}
-h1{font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.08;letter-spacing:-.03em;font-weight:800}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;padding:56px 20px 72px}
+h1{font-size:clamp(2rem,5.2vw,3.5rem);line-height:1.12;letter-spacing:-.02em;font-weight:800;text-wrap:balance}
 .lead{color:var(--mu);font-size:1.1rem;margin:20px 0 28px;max-width:30em}
 .cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .note{font-size:.85rem;color:var(--mu);margin-top:14px}
@@ -92,8 +92,8 @@ main{position:relative}
 @keyframes up{from{opacity:0;transform:translateY(24px)}}
 .hero h1,.hero .lead,.hero .cta,.hero .note,.hero .card{animation:up .7s cubic-bezier(.2,.7,.2,1) both}
 .hero h1{animation-delay:.05s}.hero .lead{animation-delay:.2s}.hero .cta{animation-delay:.35s}.hero .note{animation-delay:.5s}.hero .card{animation-delay:.3s}
-.u{background:linear-gradient(var(--ac),var(--ac)) 0 92%/0 .14em no-repeat;animation:ul 1s .9s ease forwards}
-@keyframes ul{to{background-size:100% .14em}}
+.u{background:linear-gradient(90deg,var(--ac),color-mix(in srgb,var(--ac) 50%,var(--tx)),var(--ac)) 0 0/200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-box-decoration-break:clone;box-decoration-break:clone;animation:shine 4s linear infinite}
+@keyframes shine{to{background-position:200% 0}}
 .btn{position:relative;overflow:hidden}
 .btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-120%)}
 .btn:hover::after{transform:translateX(120%);transition:transform .7s}.btn.ghost::after{display:none}
@@ -126,7 +126,7 @@ main{position:relative}
 <div class="bg" aria-hidden="true"><i></i><i></i></div>
 <div class="wrap hero">
   <div>
-    <h1>Trabaja en tus <span class="u">horas libres</span>, no en las de clase.</h1>
+    <h1>Gana dinero <span class="u">sin faltar a clase</span>.</h1>
     <p class="lead">Turnos de unas 3 horas que calzan con tu horario de clases y quedan cerca de tu instituto o universidad.</p>
     <div class="cta"><a class="btn" href="#registro" data-ev="cta_hero">Registra tu horario libre</a><a class="btn ghost" href="#como" data-ev="cta_como">Ver cómo funciona</a></div>
     <p class="note">Piloto gratuito para estudiantes de educación superior en Lima Metropolitana.</p>
