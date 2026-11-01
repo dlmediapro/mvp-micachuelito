@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="es" data-theme="a">
+
 <head>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XQS240J2X8"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-XQS240J2X8');
   </script>
@@ -13,20 +14,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi cachuelito | Turnos de 3 horas para estudiantes que trabajan</title>
-  <meta name="description" content="Turnos de unas 3 horas que calzan con tu horario de clases y quedan cerca de tu instituto o universidad. Piloto gratuito para estudiantes en Lima.">
-  
+  <meta name="description"
+    content="Turnos de unas 3 horas que calzan con tu horario de clases y quedan cerca de tu instituto o universidad. Piloto gratuito para estudiantes en Lima.">
+
   <!-- Favicon desacoplado -->
   <link rel="icon" type="image/svg+xml" href="./assets/img/favicon.svg">
-  
+
   <!-- Tipografía Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
   <!-- Hojas de estilo modulares -->
   <link rel="stylesheet" href="./assets/css/styles.css">
   <link rel="stylesheet" href="./assets/css/form-schedule.css">
 </head>
+
 <body id="top">
   <!-- Barra de progreso de lectura superior -->
   <div id="sp" aria-hidden="true"></div>
@@ -54,7 +58,8 @@
     <div class="wrap hero">
       <div>
         <h1>Gana dinero <span class="u">sin faltar a clase</span>.</h1>
-        <p class="lead">Turnos de unas 3 horas que calzan con tu horario de clases y quedan cerca de tu instituto o universidad.</p>
+        <p class="lead">Turnos de unas 3 horas que calzan con tu horario de clases y quedan cerca de tu instituto o
+          universidad.</p>
         <div class="cta">
           <a class="btn" href="#registro" data-ev="cta_hero">Registra tu horario libre</a>
           <a class="btn ghost" href="#como" data-ev="cta_como">Ver cómo funciona</a>
@@ -119,31 +124,65 @@
             </div>
 
             <div class="form-grid-12">
+              <!-- Guardián de Interacción y Resumen Visual de Horario (Fuente Única de Verdad) -->
+              <div class="col-12" id="schedule-guardian-container" aria-live="polite">
+                <!-- Banner de Alerta Contextual (visible si NO ha usado el simulador superior) -->
+                <div class="schedule-warning-banner" id="schedule-warning-banner" role="alert">
+                  <div class="warning-icon" aria-hidden="true">💡</div>
+                  <div class="warning-content">
+                    <strong>¡Primero prueba nuestro cuadro interactivo de horarios arriba!</strong>
+                    <p>Selecciona tu disponibilidad (mañana, tarde o noche) para ver tus cachuelos compatibles antes de registrarte.</p>
+                  </div>
+                  <button type="button" class="btn-warning-action" id="btn-goto-schedule">
+                    Ir al cuadro de horarios ↑
+                  </button>
+                </div>
+
+                <!-- Tarjeta de Resumen Visual de Solo Lectura (visible cuando ya seleccionó horario) -->
+                <div class="schedule-summary-card hide" id="schedule-summary-card">
+                  <div class="summary-header">
+                    <div class="summary-info">
+                      <span class="summary-label">Horario seleccionado en el simulador:</span>
+                      <div class="summary-chips-wrap" id="summary-badges-container">
+                        <!-- Badges dinámicos de turnos y días -->
+                      </div>
+                    </div>
+                    <button type="button" class="btn-change-schedule" id="btn-change-schedule" title="Modificar turnos en el simulador superior">
+                      Cambiar horario ↑
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               <!-- Nombre Completo -->
               <div class="fg col-12">
                 <label for="nombre">Nombre completo <span class="req" aria-hidden="true">*</span></label>
-                <input id="nombre" name="nombre" autocomplete="name" placeholder="Ej.: Carlos Mendoza" required aria-required="true" aria-describedby="e-nombre">
+                <input id="nombre" name="nombre" autocomplete="name" placeholder="Ej.: Carlos Mendoza" required
+                  aria-required="true" aria-describedby="e-nombre">
                 <div class="err" id="e-nombre" role="alert" aria-live="polite"></div>
               </div>
 
               <!-- Teléfono / WhatsApp -->
               <div class="fg col-6">
                 <label for="whatsapp">WhatsApp / Celular <span class="req" aria-hidden="true">*</span></label>
-                <input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="999 999 999" required aria-required="true" aria-describedby="e-whatsapp">
+                <input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel"
+                  placeholder="999 999 999" required aria-required="true" aria-describedby="e-whatsapp">
                 <div class="err" id="e-whatsapp" role="alert" aria-live="polite"></div>
               </div>
 
               <!-- Correo Electrónico Institucional o Personal -->
               <div class="fg col-6">
                 <label for="email">Correo electrónico <span class="req" aria-hidden="true">*</span></label>
-                <input id="email" name="email" type="email" autocomplete="email" placeholder="ejemplo@universidad.edu.pe" required aria-required="true" aria-describedby="e-email">
+                <input id="email" name="email" type="email" autocomplete="email"
+                  placeholder="ejemplo@universidad.edu.pe" required aria-required="true" aria-describedby="e-email">
                 <div class="err" id="e-email" role="alert" aria-live="polite"></div>
               </div>
 
               <!-- Instituto o Universidad y Sede -->
               <div class="fg col-6">
                 <label for="sede">Instituto o universidad y sede <span class="req" aria-hidden="true">*</span></label>
-                <input id="sede" name="institucion" placeholder="Ej.: UPC Monterrico, SENATI..." required aria-required="true" aria-describedby="e-sede">
+                <input id="sede" name="institucion" placeholder="Ej.: UPC Monterrico, SENATI..." required
+                  aria-required="true" aria-describedby="e-sede">
                 <div class="err" id="e-sede" role="alert" aria-live="polite"></div>
               </div>
 
@@ -159,74 +198,19 @@
                 <div class="err" id="e-trabaja" role="alert" aria-live="polite"></div>
               </div>
 
-              <!-- Selector Obligatorio de Horarios y Turnos -->
-              <div class="col-12">
-                <fieldset class="schedule-fieldset" id="schedule-fieldset" aria-required="true" aria-describedby="e-horario">
-                  <legend class="schedule-legend">
-                    Disponibilidad de Horarios y Turnos <span class="req" aria-hidden="true">*</span>
-                    <span class="sub-legend">Elige tus turnos preferidos (al menos 1 obligatorio):</span>
-                  </legend>
-
-                  <!-- Chips de Turnos de 3 Horas -->
-                  <div class="shift-chips-group" role="group" aria-label="Turnos de 3 horas">
-                    <label class="shift-chip" id="chip-manana">
-                      <input type="checkbox" name="turno_pref" value="manana">
-                      <strong>Mañana</strong>
-                      <span>08:00 – 12:00</span>
-                    </label>
-                    <label class="shift-chip" id="chip-tarde">
-                      <input type="checkbox" name="turno_pref" value="tarde">
-                      <strong>Tarde</strong>
-                      <span>14:00 – 18:00</span>
-                    </label>
-                    <label class="shift-chip" id="chip-noche">
-                      <input type="checkbox" name="turno_pref" value="noche">
-                      <strong>Noche</strong>
-                      <span>18:00 – 22:00</span>
-                    </label>
-                  </div>
-
-                  <span class="schedule-legend" style="margin-top: 8px; display: block; font-size: 0.85rem;">
-                    Días en los que puedes tomar turnos:
-                  </span>
-
-                  <!-- Chips de Días -->
-                  <div class="days-chips-group" role="group" aria-label="Días disponibles">
-                    <label class="day-chip">
-                      <input type="checkbox" name="dias_pref" value="lun"> Lun
-                    </label>
-                    <label class="day-chip">
-                      <input type="checkbox" name="dias_pref" value="mar"> Mar
-                    </label>
-                    <label class="day-chip">
-                      <input type="checkbox" name="dias_pref" value="mie"> Mié
-                    </label>
-                    <label class="day-chip">
-                      <input type="checkbox" name="dias_pref" value="jue"> Jue
-                    </label>
-                    <label class="day-chip">
-                      <input type="checkbox" name="dias_pref" value="vie"> Vie
-                    </label>
-                  </div>
-
-                  <div class="schedule-summary-badge">
-                    <span>Resumen: <b id="schedule-summary-text">Ninguno seleccionado (obligatorio)</b></span>
-                  </div>
-
-                  <div class="err" id="e-horario" role="alert" aria-live="polite"></div>
-                </fieldset>
-              </div>
-
               <!-- Inputs Ocultos de Estado y Honeypot Antispam -->
               <input type="hidden" name="horas" id="horas">
               <input type="hidden" name="turno" id="turno">
-              <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+              <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"
+                style="position:absolute;left:-9999px">
 
               <!-- Checkbox de Consentimiento -->
               <div class="col-12 chk">
-                <input type="checkbox" id="consent" name="consentimiento" required aria-required="true" aria-describedby="e-consent">
+                <input type="checkbox" id="consent" name="consentimiento" required aria-required="true"
+                  aria-describedby="e-consent">
                 <label for="consent">
-                  Acepto que me contacten por WhatsApp. <button type="button" data-priv>Ver cómo usamos mis datos</button>
+                  Acepto que me contacten por WhatsApp. <button type="button" data-priv>Ver cómo usamos mis
+                    datos</button>
                 </label>
               </div>
               <div class="col-12 err" id="e-consent" role="alert" aria-live="polite"></div>
@@ -241,8 +225,9 @@
           <!-- Estado de Éxito Post-Envío -->
           <div class="okp hide" id="ok" role="status" aria-live="polite">
             <svg class="ck" viewBox="0 0 52 52" width="64" height="64" aria-hidden="true">
-              <circle cx="26" cy="26" r="24" fill="none" stroke="var(--ok)" stroke-width="3"/>
-              <path d="M14 27l8 8 16-17" fill="none" stroke="var(--ok)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="26" cy="26" r="24" fill="none" stroke="var(--ok)" stroke-width="3" />
+              <path d="M14 27l8 8 16-17" fill="none" stroke="var(--ok)" stroke-width="3.5" stroke-linecap="round"
+                stroke-linejoin="round" />
             </svg>
             <h3>¡Listo, te escribiremos por WhatsApp!</h3>
             <p>¿Quieres que te consideremos prioritariamente para un turno de prueba?</p>
@@ -267,7 +252,8 @@
             <div class="two">
               <div class="fg">
                 <label for="empresa">Empresa <span class="req" aria-hidden="true">*</span></label>
-                <input id="empresa" name="empresa" autocomplete="organization" required aria-required="true" aria-describedby="e-empresa">
+                <input id="empresa" name="empresa" autocomplete="organization" required aria-required="true"
+                  aria-describedby="e-empresa">
                 <div class="err" id="e-empresa" role="alert" aria-live="polite"></div>
               </div>
               <div class="fg">
@@ -313,11 +299,14 @@
         </details>
         <details>
           <summary>¿Los turnos de arriba son reales?</summary>
-          <p>Son ejemplos ilustrativos para mostrar cómo funcionaría la asignación de turnos cortos. Estamos validando la demanda con estudiantes y empresas, y te escribiremos cuando haya turnos disponibles que calcen con tu disponibilidad.</p>
+          <p>Son ejemplos ilustrativos para mostrar cómo funcionaría la asignación de turnos cortos. Estamos validando
+            la demanda con estudiantes y empresas, y te escribiremos cuando haya turnos disponibles que calcen con tu
+            disponibilidad.</p>
         </details>
         <details>
           <summary>¿Qué hacen con mis datos?</summary>
-          <p>Los usamos únicamente para este proyecto académico y para contactarte cuando surjan turnos cerca de tu sede. <button type="button" class="mini" data-priv>Leer política completa</button></p>
+          <p>Los usamos únicamente para este proyecto académico y para contactarte cuando surjan turnos cerca de tu
+            sede. <button type="button" class="mini" data-priv>Leer política completa</button></p>
         </details>
       </div>
     </section>
@@ -326,7 +315,8 @@
   <!-- Pie de Página -->
   <footer>
     <div class="wrap">
-      Mi cachuelito · Proyecto académico de validación · Contacto: <span data-mail></span> · <button type="button" data-priv>Privacidad</button>
+      Mi cachuelito · Proyecto académico de validación · Contacto: <span data-mail></span> · <button type="button"
+        data-priv>Privacidad</button>
     </div>
   </footer>
 
@@ -339,7 +329,11 @@
   <!-- Diálogo Accesible de Privacidad -->
   <dialog id="dlg" aria-labelledby="dt">
     <h3 id="dt">Cómo usamos tus datos</h3>
-    <p>Usamos tu nombre, WhatsApp, correo electrónico, institución y disponibilidad únicamente para este proyecto académico de validación y para escribirte sobre turnos de prueba disponibles cerca de tu sede. No vendemos tus datos a terceros. Los formularios son procesados de forma segura mediante Formspree y medimos las visitas agregadas con Google Analytics. Puedes solicitar la eliminación inmediata de tus datos escribiendo a <span data-mail></span>.</p>
+    <p>Usamos tu nombre, WhatsApp, correo electrónico, institución y disponibilidad únicamente para este proyecto
+      académico de validación y para escribirte sobre turnos de prueba disponibles cerca de tu sede. No vendemos tus
+      datos a terceros. Los formularios son procesados de forma segura mediante Formspree y medimos las visitas
+      agregadas con Google Analytics. Puedes solicitar la eliminación inmediata de tus datos escribiendo a <span
+        data-mail></span>.</p>
     <button class="btn" id="dcl" type="button">Entendido</button>
   </dialog>
 
@@ -347,4 +341,5 @@
   <script src="./assets/js/app.js"></script>
   <script src="./assets/js/form-handler.js"></script>
 </body>
+
 </html>

@@ -1,7 +1,8 @@
 /**
- * Mi Cachuelito - Manejador de Formulario y Validación Estricta
- * Gatekeeping, Selección obligatoria de turnos, Persistencia LocalStorage,
- * Prevención de errores accesible (WCAG 2.1 AA) y comunicación con Formspree.
+ * Mi Cachuelito - Manejador de Formulario Simplificado y Guardián de Interacción
+ * Vinculación con el Cuadro Interactivo Superior (Fuente Única de Verdad),
+ * Resumen Visual de Solo Lectura (Badges), Prevención y Recuperación de Errores (WCAG 2.1 AA),
+ * Persistencia en LocalStorage y Envío Asíncrono a Formspree.
  */
 
 (function () {
@@ -18,13 +19,6 @@
     if (window.gtag) {
       window.gtag("event", eventName, params || {});
     }
-  };
-
-  // Estado reactivo de turnos y días seleccionados en el formulario
-  const formScheduleState = {
-    shifts: new Set(), // 'manana', 'tarde', 'noche'
-    days: new Set(),   // 'lun', 'mar', 'mie', 'jue', 'vie'
-    specificShift: ''  // Ej: 'Apoyo en tienda (Lun 09:00 - 12:00)'
   };
 
   /* ==========================================================================
@@ -55,7 +49,7 @@
 
   function clearAllErrors(formEl) {
     if (!formEl) return;
-    formEl.querySelectorAll("input, select, fieldset").forEach(el => {
+    formEl.querySelectorAll("input, select").forEach(el => {
       el.removeAttribute("aria-invalid");
     });
     formEl.querySelectorAll(".err").forEach(el => {
@@ -72,177 +66,86 @@
   }
 
   /* ==========================================================================
-     2. SELECTOR DE HORARIOS INTERACTIVO (Chips y Turnos)
+     2. RESUMEN VISUAL DE HORARIO Y SINCRONIZACIÓN REACTIVA
      ========================================================================== */
-  function updateScheduleSummary() {
-    const summaryBadge = $("schedule-summary-text");
-    const hiddenHoras = $("horas");
-    const fieldset = $("schedule-fieldset");
+  function updateScheduleDisplay(state) {
+    const warningBanner = $("schedule-warning-banner");
+    const summaryCard = $("schedule-summary-card");
+    const badgesContainer = $("summary-badges-container");
+    const horasHidden = $("horas");
+    const turnoHidden = $("turno");
 
-    const shiftLabels = {
-      'manana': 'Mañana (8am - 12pm)',
-      'tarde': 'Tarde (2pm - 6pm)',
-      'noche': 'Noche (6pm - 10pm)'
-    };
+    const hasSelection = state && state.hasSelection;
 
-    const dayLabels = {
-      'lun': 'Lun',
-      'mar': 'Mar',
-      'mie': 'Mié',
-      'jue': 'Jue',
-      'vie': 'Vie'
-    };
+    if (hasSelection) {
+      // Ocultar alerta de advertencia y mostrar tarjeta de resumen
+      if (warningBanner) warningBanner.classList.add("hide");
+      if (summaryCard) summaryCard.classList.remove("hide");
 
-    const selectedShiftsArr = Array.from(formScheduleState.shifts).map(s => shiftLabels[s] || s);
-    const selectedDaysArr = Array.from(formScheduleState.days).map(d => dayLabels[d] || d);
+      const badgesHtml = [];
 
-    let summaryText = "";
-    if (formScheduleState.specificShift) {
-      summaryText = formScheduleState.specificShift;
-    } else if (selectedShiftsArr.length > 0 || selectedDaysArr.length > 0) {
-      const parts = [];
-      if (selectedDaysArr.length > 0) parts.push(`Días: ${selectedDaysArr.join(', ')}`);
-      if (selectedShiftsArr.length > 0) parts.push(`Turnos: ${selectedShiftsArr.join(' / ')}`);
-      summaryText = parts.join(' | ');
-    } else {
-      summaryText = "Ninguno seleccionado (obligatorio)";
-    }
-
-    if (summaryBadge) {
-      summaryBadge.textContent = summaryText;
-    }
-
-    if (hiddenHoras) {
-      hiddenHoras.value = summaryText === "Ninguno seleccionado (obligatorio)" ? "" : summaryText;
-    }
-
-    // Si ya seleccionó al menos un turno o día, limpiar error del selector
-    if (formScheduleState.shifts.size > 0 || formScheduleState.days.size > 0 || formScheduleState.specificShift) {
-      if (fieldset) {
-        fieldset.removeAttribute("aria-invalid");
+      // Badges para turnos seleccionados
+      if (state.selectedShifts && state.selectedShifts.size > 0) {
+        state.selectedShifts.forEach(shift => {
+          badgesHtml.push(`<span class="badge-shift">${shift}</span>`);
+        });
       }
-      const errSchedule = $("e-horario");
-      if (errSchedule) errSchedule.textContent = "";
+
+      // Badges para días seleccionados
+      if (state.selectedDays && state.selectedDays.size > 0) {
+        state.selectedDays.forEach(day => {
+          badgesHtml.push(`<span class="badge-day">${day}</span>`);
+        });
+      }
+
+      // Badge para vacante específica si el usuario hizo clic en "Me interesa"
+      if (state.interestedShift) {
+        badgesHtml.push(`<span class="badge-match" title="Turno preferido">⭐ ${state.interestedShift.title}</span>`);
+        if (turnoHidden) turnoHidden.value = state.interestedShift.label || state.interestedShift.title;
+      }
+
+      // Badge de compatibilidad si hay vacantes filtradas
+      if (state.vacanciesCount > 0) {
+        badgesHtml.push(`<span class="badge-match">${state.vacanciesCount} turno(s) compatible(s)</span>`);
+      }
+
+      if (badgesContainer) {
+        badgesContainer.innerHTML = badgesHtml.length > 0 ? badgesHtml.join("") : `<span class="badge-shift">Turno flexible</span>`;
+      }
+
+      // Formatear valor consolidado para el input oculto que recibe Formspree
+      const summaryParts = [];
+      if (state.selectedShifts && state.selectedShifts.size > 0) {
+        summaryParts.push(`Turnos: ${Array.from(state.selectedShifts).join(", ")}`);
+      }
+      if (state.selectedDays && state.selectedDays.size > 0) {
+        summaryParts.push(`Días: ${Array.from(state.selectedDays).join(", ")}`);
+      }
+      if (state.interestedShift) {
+        summaryParts.push(`Preferencia: ${state.interestedShift.title}`);
+      }
+
+      if (horasHidden) {
+        horasHidden.value = summaryParts.join(" | ");
+      }
+    } else {
+      // Sin horario seleccionado: mostrar banner de advertencia y ocultar resumen
+      if (warningBanner) warningBanner.classList.remove("hide");
+      if (summaryCard) summaryCard.classList.add("hide");
+      if (horasHidden) horasHidden.value = "";
     }
 
     updateProgressBar();
     saveDraft();
   }
 
-  function initScheduleChips() {
-    // Chips de Turnos
-    document.querySelectorAll(".shift-chip").forEach(chip => {
-      const input = chip.querySelector("input[type='checkbox']");
-      if (!input) return;
-
-      input.addEventListener("change", () => {
-        chip.classList.toggle("selected", input.checked);
-        chip.setAttribute("aria-checked", String(input.checked));
-
-        const shiftVal = input.value;
-        if (input.checked) {
-          formScheduleState.shifts.add(shiftVal);
-        } else {
-          formScheduleState.shifts.delete(shiftVal);
-        }
-        updateScheduleSummary();
-      });
-    });
-
-    // Chips de Días
-    document.querySelectorAll(".day-chip").forEach(chip => {
-      const input = chip.querySelector("input[type='checkbox']");
-      if (!input) return;
-
-      input.addEventListener("change", () => {
-        chip.classList.toggle("selected", input.checked);
-        chip.setAttribute("aria-checked", String(input.checked));
-
-        const dayVal = input.value;
-        if (input.checked) {
-          formScheduleState.days.add(dayVal);
-        } else {
-          formScheduleState.days.delete(dayVal);
-        }
-        updateScheduleSummary();
-      });
-    });
-  }
-
-  // Sincronización desde el Hero Planner
-  window.syncPlannerWithForm = function (plannerSet) {
-    if (!plannerSet || plannerSet.size === 0) return;
-
-    // Traducir coordenadas (di-si)
-    const dayMap = { 0: 'lun', 1: 'mar', 2: 'mie', 3: 'jue', 4: 'vie' };
-    const shiftMap = { 0: 'manana', 1: 'tarde', 2: 'noche' };
-
-    plannerSet.forEach(k => {
-      const [d, s] = k.split('-');
-      if (dayMap[d]) formScheduleState.days.add(dayMap[d]);
-      if (shiftMap[s]) formScheduleState.shifts.add(shiftMap[s]);
-    });
-
-    // Actualizar estados visuales de los chips
-    document.querySelectorAll(".shift-chip").forEach(chip => {
-      const input = chip.querySelector("input[type='checkbox']");
-      if (input && formScheduleState.shifts.has(input.value)) {
-        input.checked = true;
-        chip.classList.add("selected");
-        chip.setAttribute("aria-checked", "true");
-      }
-    });
-
-    document.querySelectorAll(".day-chip").forEach(chip => {
-      const input = chip.querySelector("input[type='checkbox']");
-      if (input && formScheduleState.days.has(input.value)) {
-        input.checked = true;
-        chip.classList.add("selected");
-        chip.setAttribute("aria-checked", "true");
-      }
-    });
-
-    updateScheduleSummary();
-  };
-
-  // Interés específico en turno de ejemplo del Hero
-  window.applyShiftInterest = function (shiftObj, shiftLabel) {
-    formScheduleState.specificShift = shiftLabel;
-    const turnoInput = $("turno");
-    if (turnoInput) {
-      turnoInput.value = shiftLabel;
-    }
-
-    const dayMap = { 0: 'lun', 1: 'mar', 2: 'mie', 3: 'jue', 4: 'vie' };
-    const shiftMap = { 0: 'manana', 1: 'tarde', 2: 'noche' };
-
-    if (dayMap[shiftObj.d]) formScheduleState.days.add(dayMap[shiftObj.d]);
-    if (shiftMap[shiftObj.s]) formScheduleState.shifts.add(shiftMap[shiftObj.s]);
-
-    // Actualizar visualmente
-    document.querySelectorAll(".shift-chip").forEach(chip => {
-      const input = chip.querySelector("input[type='checkbox']");
-      if (input && input.value === shiftMap[shiftObj.s]) {
-        input.checked = true;
-        chip.classList.add("selected");
-        chip.setAttribute("aria-checked", "true");
-      }
-    });
-
-    document.querySelectorAll(".day-chip").forEach(chip => {
-      const input = chip.querySelector("input[type='checkbox']");
-      if (input && input.value === dayMap[shiftObj.d]) {
-        input.checked = true;
-        chip.classList.add("selected");
-        chip.setAttribute("aria-checked", "true");
-      }
-    });
-
-    updateScheduleSummary();
+  // Notificación reactiva exportada para recibir cambios desde el Hero Planner
+  window.onScheduleStateChanged = function (state) {
+    updateScheduleDisplay(state);
   };
 
   /* ==========================================================================
-     3. PERSISTENCIA EN LOCALSTORAGE (Borrador del MVP)
+     3. PERSISTENCIA EN LOCALSTORAGE (Borrador de Datos Personales)
      ========================================================================== */
   function saveDraft() {
     try {
@@ -255,10 +158,7 @@
         email: $("email") ? $("email").value : "",
         sede: $("sede") ? $("sede").value : "",
         trabaja: $("trabaja") ? $("trabaja").value : "",
-        consent: $("consent") ? $("consent").checked : false,
-        shifts: Array.from(formScheduleState.shifts),
-        days: Array.from(formScheduleState.days),
-        specificShift: formScheduleState.specificShift
+        consent: $("consent") ? $("consent").checked : false
       };
 
       localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
@@ -270,47 +170,20 @@
   function loadDraft() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      const draft = JSON.parse(raw);
-
-      if (draft.nombre && $("nombre")) $("nombre").value = draft.nombre;
-      if (draft.whatsapp && $("whatsapp")) $("whatsapp").value = draft.whatsapp;
-      if (draft.email && $("email")) $("email").value = draft.email;
-      if (draft.sede && $("sede")) $("sede").value = draft.sede;
-      if (draft.trabaja && $("trabaja")) $("trabaja").value = draft.trabaja;
-      if (typeof draft.consent === 'boolean' && $("consent")) $("consent").checked = draft.consent;
-
-      if (Array.isArray(draft.shifts)) {
-        draft.shifts.forEach(s => formScheduleState.shifts.add(s));
-      }
-      if (Array.isArray(draft.days)) {
-        draft.days.forEach(d => formScheduleState.days.add(d));
-      }
-      if (draft.specificShift) {
-        formScheduleState.specificShift = draft.specificShift;
-        if ($("turno")) $("turno").value = draft.specificShift;
+      if (raw) {
+        const draft = JSON.parse(raw);
+        if (draft.nombre && $("nombre")) $("nombre").value = draft.nombre;
+        if (draft.whatsapp && $("whatsapp")) $("whatsapp").value = draft.whatsapp;
+        if (draft.email && $("email")) $("email").value = draft.email;
+        if (draft.sede && $("sede")) $("sede").value = draft.sede;
+        if (draft.trabaja && $("trabaja")) $("trabaja").value = draft.trabaja;
+        if (typeof draft.consent === 'boolean' && $("consent")) $("consent").checked = draft.consent;
       }
 
-      // Sincronizar checkboxes del formulario
-      document.querySelectorAll(".shift-chip").forEach(chip => {
-        const input = chip.querySelector("input[type='checkbox']");
-        if (input && formScheduleState.shifts.has(input.value)) {
-          input.checked = true;
-          chip.classList.add("selected");
-          chip.setAttribute("aria-checked", "true");
-        }
-      });
-
-      document.querySelectorAll(".day-chip").forEach(chip => {
-        const input = chip.querySelector("input[type='checkbox']");
-        if (input && formScheduleState.days.has(input.value)) {
-          input.checked = true;
-          chip.classList.add("selected");
-          chip.setAttribute("aria-checked", "true");
-        }
-      });
-
-      updateScheduleSummary();
+      // Sincronizar el estado del horario actual
+      if (window.scheduleState) {
+        updateScheduleDisplay(window.scheduleState);
+      }
     } catch (e) {
       console.warn("No se pudo restaurar borrador de localStorage", e);
     }
@@ -319,9 +192,7 @@
   function clearDraft() {
     try {
       localStorage.removeItem(STORAGE_KEY);
-    } catch (e) {
-      // Ignorar errores en limpieza
-    }
+    } catch (e) {}
   }
 
   /* ==========================================================================
@@ -338,17 +209,15 @@
     const trabajaVal = $("trabaja") ? $("trabaja").value : "";
     const consentVal = $("consent") ? $("consent").checked : false;
 
-    const hasSchedule = formScheduleState.shifts.size > 0 ||
-      formScheduleState.days.size > 0 ||
-      Boolean(formScheduleState.specificShift);
+    const hasSchedule = window.scheduleState && window.scheduleState.hasSelection;
 
     const checks = [
+      hasSchedule,
       nombreVal.length >= 3,
       /^(\+?51)?9\d{8}$/.test(waVal),
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal),
       sedeVal.length >= 2,
       Boolean(trabajaVal),
-      hasSchedule,
       consentVal
     ];
 
@@ -357,7 +226,7 @@
   }
 
   /* ==========================================================================
-     5. VALIDACIÓN Y GATEKEEPING DE ENVÍO
+     5. VALIDACIÓN, GUARDIÁN DE INTERACCIÓN Y ENVÍO
      ========================================================================== */
   const postData = (formData) => {
     return fetch(EP, {
@@ -377,10 +246,39 @@
     const formEl = $("f");
     if (!formEl) return;
 
-    formEl.addEventListener("focusin", () => {
+    // Conectar botones de redirección y cambio de horario
+    const btnGoto = $("btn-goto-schedule");
+    if (btnGoto) {
+      btnGoto.addEventListener("click", () => {
+        if (typeof window.highlightAndScrollToSchedule === "function") {
+          window.highlightAndScrollToSchedule();
+        }
+      });
+    }
+
+    const btnChange = $("btn-change-schedule");
+    if (btnChange) {
+      btnChange.addEventListener("click", () => {
+        if (typeof window.highlightAndScrollToSchedule === "function") {
+          window.highlightAndScrollToSchedule();
+        }
+      });
+    }
+
+    // Guardián en focusin: si intenta interactuar sin haber usado el cuadro superior
+    formEl.addEventListener("focusin", (e) => {
       if (!formStarted) {
         formStarted = true;
         track("form_start");
+      }
+
+      // Si no ha seleccionado horario arriba y entra a un campo de entrada
+      const hasSchedule = window.scheduleState && window.scheduleState.hasSelection;
+      if (!hasSchedule && e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) {
+        const warningBanner = $("schedule-warning-banner");
+        if (warningBanner) {
+          warningBanner.classList.remove("hide");
+        }
       }
     });
 
@@ -452,56 +350,63 @@
       return 0;
     }
 
+    // Submit handler con regla condicional estricta del Guardián
     formEl.addEventListener("submit", e => {
       e.preventDefault();
       clearAllErrors(formEl);
 
+      // 1. GUARDIÁN ESTRICTO: Verificar si el usuario seleccionó horario en el cuadro superior
+      const hasSchedule = window.scheduleState && window.scheduleState.hasSelection;
+      if (!hasSchedule) {
+        const warningBanner = $("schedule-warning-banner");
+        if (warningBanner) {
+          warningBanner.classList.remove("hide");
+        }
+        if (typeof window.highlightAndScrollToSchedule === "function") {
+          window.highlightAndScrollToSchedule();
+        }
+        if (window.showToast) {
+          window.showToast("¡Primero selecciona tu disponibilidad en el cuadro interactivo de arriba!");
+        }
+        return; // Bloqueo total de envío
+      }
+
       let errorsCount = 0;
       let firstInvalidElement = null;
 
-      // 1. Validar Nombre
+      // 2. Validar Nombre
       const nombreVal = $("nombre").value.trim();
       if (nombreVal.length < 3) {
         errorsCount += setFieldError("nombre", "e-nombre", "Escribe tu nombre completo (mínimo 3 caracteres).");
         firstInvalidElement = firstInvalidElement || $("nombre");
       }
 
-      // 2. Validar WhatsApp
+      // 3. Validar WhatsApp
       const rawWa = $("whatsapp").value.replace(/[\s-]/g, "");
       if (!/^(\+?51)?9\d{8}$/.test(rawWa)) {
         errorsCount += setFieldError("whatsapp", "e-whatsapp", "Ingresa un celular válido de 9 dígitos que comience con 9.");
         firstInvalidElement = firstInvalidElement || $("whatsapp");
       }
 
-      // 3. Validar Email
+      // 4. Validar Email
       const emailVal = $("email").value.trim();
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
         errorsCount += setFieldError("email", "e-email", "Ingresa un correo electrónico válido (ej.: nombre@ejemplo.com).");
         firstInvalidElement = firstInvalidElement || $("email");
       }
 
-      // 4. Validar Sede
+      // 5. Validar Sede
       const sedeVal = $("sede").value.trim();
       if (sedeVal.length < 2) {
         errorsCount += setFieldError("sede", "e-sede", "Indica tu institución educativa y sede.");
         firstInvalidElement = firstInvalidElement || $("sede");
       }
 
-      // 5. Validar Situación Laboral
+      // 6. Validar Situación Laboral
       const trabajaVal = $("trabaja").value;
       if (!trabajaVal) {
         errorsCount += setFieldError("trabaja", "e-trabaja", "Elige una opción sobre tu situación laboral actual.");
         firstInvalidElement = firstInvalidElement || $("trabaja");
-      }
-
-      // 6. VALIDACIÓN OBLIGATORIA DE SELECCIÓN DE HORARIOS
-      const hasSchedule = formScheduleState.shifts.size > 0 ||
-        formScheduleState.days.size > 0 ||
-        Boolean(formScheduleState.specificShift);
-
-      if (!hasSchedule) {
-        errorsCount += setFieldError("schedule-fieldset", "e-horario", "Debes seleccionar al menos un turno o día libre disponible.");
-        firstInvalidElement = firstInvalidElement || $("schedule-fieldset");
       }
 
       // 7. Validar Consentimiento
@@ -511,7 +416,7 @@
         firstInvalidElement = firstInvalidElement || $("consent");
       }
 
-      // Si hay errores, detener envío y enfocar el primer elemento fallido
+      // Si hay errores de campos personales, enfocar el primero
       if (errorsCount > 0) {
         if (firstInvalidElement) {
           if (typeof firstInvalidElement.focus === 'function') {
@@ -520,12 +425,12 @@
           firstInvalidElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
         if (window.showToast) {
-          window.showToast("Por favor completa todos los campos y horarios obligatorios.");
+          window.showToast("Por favor completa todos tus datos personales obligatorios.");
         }
         return;
       }
 
-      // Todos los datos son válidos: Proceder con el envío
+      // Todos los datos son válidos y el horario está seleccionado: Proceder con el envío
       userWhatsApp = rawWa;
       const submitBtn = $("sb");
       setButtonBusy(submitBtn, true, "Enviando tu disponibilidad…");
@@ -658,7 +563,6 @@
      INICIALIZACIÓN AL CARGAR EL DOM
      ========================================================================== */
   document.addEventListener("DOMContentLoaded", () => {
-    initScheduleChips();
     setupStudentForm();
     setupCompanyForm();
     loadDraft();

@@ -717,6 +717,25 @@ dialog p {
 /* ==========================================================================
    9. ANIMACIONES KEYFRAMES
    ========================================================================== */
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--ac) 85%, transparent);
+    border-color: var(--ac);
+  }
+  50% {
+    box-shadow: 0 0 0 16px transparent;
+    border-color: var(--ac);
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.highlight-pulse {
+  animation: pulse-ring 1.1s cubic-bezier(0.24, 0, 0.38, 1) 3 !important;
+  border-color: var(--ac) !important;
+}
+
 @keyframes drift {
   to { transform: translate(60px, 40px) scale(1.15); }
 }
@@ -794,3 +813,4 @@ dialog p {
     transform: none;
   }
 }
+

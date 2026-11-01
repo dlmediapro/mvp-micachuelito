@@ -116,157 +116,178 @@ input[aria-invalid="true"], select[aria-invalid="true"] {
 }
 
 /* ==========================================================================
-   4. SELECTOR OBLIGATORIO DE HORARIOS Y TURNOS
+   4. GUARDIÁN DE INTERACCIÓN Y RESUMEN VISUAL DE HORARIO
    ========================================================================== */
-.schedule-fieldset {
-  border: 1px solid var(--ln);
-  border-radius: var(--radius-md);
-  padding: var(--sp-2);
-  margin-bottom: var(--sp-1);
-  background: color-mix(in srgb, var(--s2) 40%, transparent);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.schedule-fieldset[aria-invalid="true"] {
-  border-color: var(--er);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--er) 25%, transparent);
-}
-
-.schedule-legend {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--tx);
-  padding: 0 var(--sp-1);
-  margin-bottom: var(--sp-1);
-}
-
-.schedule-legend .sub-legend {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: normal;
-  color: var(--mu);
-  margin-top: 2px;
-}
-
-/* Chips para Turnos de 3 Horas */
-.shift-chips-group {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--sp-1);
+#schedule-guardian-container {
+  min-height: 104px; /* Reserva de espacio estricta para prevenir CLS = 0 */
   margin-bottom: var(--sp-2);
-}
-
-.shift-chip {
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+/* Banner de Alerta Contextual cuando no se ha usado el cuadro interactivo */
+.schedule-warning-banner {
+  display: flex;
   align-items: center;
-  text-align: center;
-  min-height: 56px; /* Touch target accesible */
-  padding: 8px 10px;
-  background: var(--bg);
-  border: 1px solid var(--ln);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  user-select: none;
-  transition: background 0.15s, border-color 0.15s, transform 0.1s;
-}
-
-.shift-chip input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  width: 0;
-  height: 0;
-}
-
-.shift-chip:hover {
-  border-color: var(--ac);
-}
-
-.shift-chip.selected {
-  background: color-mix(in srgb, var(--ac) 20%, var(--bg));
-  border-color: var(--ac);
-  box-shadow: 0 0 0 1px var(--ac);
-}
-
-.shift-chip:focus-within {
-  outline: 2px solid var(--ac);
-  outline-offset: 2px;
-}
-
-.shift-chip strong {
-  display: block;
-  font-size: 0.85rem;
+  gap: var(--sp-2);
+  background: color-mix(in srgb, var(--ac) 12%, var(--s1));
+  border: 1.5px solid var(--ac);
+  border-radius: var(--radius-md);
+  padding: var(--sp-2);
   color: var(--tx);
+  animation: in 0.25s ease-out;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.shift-chip span {
-  font-size: 0.72rem;
-  color: var(--mu);
-}
-
-/* Chips de Días de la Semana */
-.days-chips-group {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
-}
-
-.day-chip {
-  position: relative;
+.warning-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px; /* Touch target accesible */
-  background: var(--bg);
-  border: 1px solid var(--ln);
-  border-radius: var(--radius-sm);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
 }
 
-.day-chip input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  width: 0;
-  height: 0;
+.warning-content {
+  flex: 1;
 }
 
-.day-chip:hover {
-  border-color: var(--ac);
+.warning-content strong {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--ac);
+  margin-bottom: 2px;
 }
 
-.day-chip.selected {
+.warning-content p {
+  font-size: 0.82rem;
+  color: var(--tx);
+  line-height: 1.35;
+}
+
+.btn-warning-action {
   background: var(--ac);
   color: var(--ink);
-  border-color: var(--ac);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 10px 16px;
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  border: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: transform 0.15s, filter 0.15s;
 }
 
-.day-chip:focus-within {
-  outline: 2px solid var(--ac);
-  outline-offset: 2px;
+.btn-warning-action:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
 }
 
-/* Indicador de Resumen del Horario Seleccionado */
-.schedule-summary-badge {
+/* Tarjeta de Resumen Visual de Solo Lectura (Fuente Única de Verdad) */
+.schedule-summary-card {
+  background: var(--s2);
+  border: 1px solid var(--ln);
+  border-radius: var(--radius-md);
+  padding: var(--sp-2);
+  animation: in 0.25s ease-out;
+  transition: border-color 0.2s ease;
+}
+
+.schedule-summary-card:hover {
+  border-color: color-mix(in srgb, var(--ac) 40%, var(--ln));
+}
+
+.summary-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--s2);
-  border-radius: var(--radius-sm);
-  padding: 8px 12px;
-  margin-top: var(--sp-1);
-  font-size: 0.8rem;
-  color: var(--mu);
+  gap: var(--sp-2);
+  flex-wrap: wrap;
 }
 
-.schedule-summary-badge b {
+.summary-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.summary-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--mu);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.summary-chips-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.badge-shift {
+  display: inline-flex;
+  align-items: center;
+  background: color-mix(in srgb, var(--ac) 20%, var(--bg));
+  color: var(--ac);
+  border: 1px solid var(--ac);
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.badge-day {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg);
   color: var(--tx);
+  border: 1px solid var(--ln);
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.badge-match {
+  display: inline-flex;
+  align-items: center;
+  background: color-mix(in srgb, var(--ok) 20%, var(--bg));
+  color: var(--ok);
+  border: 1px solid var(--ok);
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.btn-change-schedule {
+  background: transparent;
+  color: var(--mu);
+  border: 1px solid var(--ln);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+}
+
+.btn-change-schedule:hover {
+  color: var(--ac);
+  border-color: var(--ac);
+  background: color-mix(in srgb, var(--ac) 8%, transparent);
 }
 
 /* ==========================================================================
@@ -371,8 +392,22 @@ input[aria-invalid="true"], select[aria-invalid="true"] {
   .col-6 {
     grid-column: span 12; /* En móviles los campos ocupan todo el ancho */
   }
-  .shift-chips-group {
-    grid-template-columns: 1fr;
+  .schedule-warning-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-2);
+  }
+  .btn-warning-action {
+    width: 100%;
+    text-align: center;
+  }
+  .summary-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-2);
+  }
+  .btn-change-schedule {
+    width: 100%;
   }
 }
 
@@ -380,12 +415,8 @@ input[aria-invalid="true"], select[aria-invalid="true"] {
   .card {
     padding: var(--sp-2);
   }
-  .days-chips-group {
-    grid-template-columns: repeat(5, 1fr);
-    gap: 4px;
-  }
-  .day-chip {
-    font-size: 0.75rem;
-    min-height: 44px;
+  .warning-icon {
+    display: none;
   }
 }
+

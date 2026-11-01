@@ -43,8 +43,9 @@
   window.showToast = showToast;
 
   /* ==========================================================================
-     PLANIFICADOR INTERACTIVO DEL HERO
+     PLANIFICADOR INTERACTIVO DEL HERO (Fuente Única de Verdad)
      ========================================================================== */
+  const SCHEDULE_STORAGE_KEY = 'mvp_micachuelito_schedule';
   const D = ["Lun", "Mar", "Mié", "Jue", "Vie"];
   const S = ["Mañana", "Tarde", "Noche"];
   const SH = [
@@ -61,14 +62,55 @@
   let plannerUsed = false;
   const gridEl = $("grid");
 
+  // Estado global reactivo para la disponibilidad del usuario
+  window.scheduleState = {
+    selectedCells: sel,
+    selectedShifts: new Set(),
+    selectedDays: new Set(),
+    interestedShift: null,
+    hasSelection: false,
+    vacanciesCount: 0
+  };
+
+  // Cargar estado guardado de horarios si existe
+  try {
+    const saved = localStorage.getItem(SCHEDULE_STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed.cells)) {
+        parsed.cells.forEach(k => sel.add(k));
+      }
+      if (parsed.interestedShift) {
+        window.scheduleState.interestedShift = parsed.interestedShift;
+      }
+    }
+  } catch (e) {
+    console.warn("No se pudo cargar estado del horario", e);
+  }
+
+  // Función global para guiar y resaltar el cuadro interactivo superior
+  window.highlightAndScrollToSchedule = function () {
+    const tiltEl = $("tilt");
+    if (!tiltEl) return;
+    tiltEl.scrollIntoView({ behavior: "smooth", block: "center" });
+    tiltEl.classList.remove("highlight-pulse");
+    void tiltEl.offsetWidth; // Forzar reflujo para reiniciar animación
+    tiltEl.classList.add("highlight-pulse");
+    setTimeout(() => {
+      tiltEl.classList.remove("highlight-pulse");
+    }, 2600);
+  };
+
   if (gridEl) {
     gridEl.innerHTML = "<span></span>" +
       D.map(d => `<span>${d}</span>`).join("") +
       S.map((s, si) =>
         `<span class="r">${s}</span>` +
-        D.map((d, di) =>
-          `<button type="button" class="cell" aria-pressed="false" aria-label="${d} ${s.toLowerCase()}" data-k="${di}-${si}"></button>`
-        ).join("")
+        D.map((d, di) => {
+          const k = `${di}-${si}`;
+          const isPressed = sel.has(k);
+          return `<button type="button" class="cell" aria-pressed="${isPressed}" aria-label="${d} ${s.toLowerCase()}" data-k="${k}"></button>`;
+        }).join("")
       ).join("");
 
     function renderPlanner() {
@@ -96,9 +138,30 @@
       const barEl = $("bar");
       if (barEl) barEl.style.width = (sel.size / 15 * 100) + "%";
 
-      // Notificar al manejador de formularios si está disponible
-      if (window.syncPlannerWithForm) {
-        window.syncPlannerWithForm(sel);
+      // Actualizar estado global reactivo
+      window.scheduleState.selectedShifts.clear();
+      window.scheduleState.selectedDays.clear();
+
+      sel.forEach(k => {
+        const [di, si] = k.split("-");
+        if (D[+di]) window.scheduleState.selectedDays.add(D[+di]);
+        if (S[+si]) window.scheduleState.selectedShifts.add(S[+si]);
+      });
+
+      window.scheduleState.hasSelection = sel.size > 0 || Boolean(window.scheduleState.interestedShift);
+      window.scheduleState.vacanciesCount = m.length;
+
+      // Guardar en localStorage
+      try {
+        localStorage.setItem(SCHEDULE_STORAGE_KEY, JSON.stringify({
+          cells: Array.from(sel),
+          interestedShift: window.scheduleState.interestedShift
+        }));
+      } catch (e) {}
+
+      // Notificar reactivamente al formulario inferior
+      if (typeof window.onScheduleStateChanged === "function") {
+        window.onScheduleStateChanged(window.scheduleState);
       }
     }
 
@@ -130,10 +193,29 @@
         const shiftLabel = `${x.t} (${D[x.d]} ${x.h})`;
 
         track("shift_interest", { shift: x.t });
-        showToast(`Anotamos tu interés en «${x.t}». Completa tu registro abajo para avisarte.`);
+        showToast(`Anotamos tu interés en «${x.t}». Completa tus datos abajo para avisarte.`);
 
-        if (window.applyShiftInterest) {
-          window.applyShiftInterest(x, shiftLabel);
+        window.scheduleState.interestedShift = {
+          title: x.t,
+          day: D[x.d],
+          hours: x.h,
+          minutes: x.m,
+          label: shiftLabel
+        };
+        window.scheduleState.hasSelection = true;
+        if (D[x.d]) window.scheduleState.selectedDays.add(D[x.d]);
+        if (S[x.s]) window.scheduleState.selectedShifts.add(S[x.s]);
+
+        // Guardar y notificar
+        try {
+          localStorage.setItem(SCHEDULE_STORAGE_KEY, JSON.stringify({
+            cells: Array.from(sel),
+            interestedShift: window.scheduleState.interestedShift
+          }));
+        } catch (e) {}
+
+        if (typeof window.onScheduleStateChanged === "function") {
+          window.onScheduleStateChanged(window.scheduleState);
         }
 
         const regSec = $("registro");
@@ -277,3 +359,4 @@
   window.triggerConfetti = triggerConfetti;
 
 })();
+
