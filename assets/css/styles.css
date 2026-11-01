@@ -1,0 +1,796 @@
+/**
+ * Mi Cachuelito - Landing Page Principal
+ * Estilos globales, diseño base, tipografía, componentes y animaciones.
+ */
+
+/* ==========================================================================
+   1. VARIABLES Y SISTEMA DE TOKENS (8pt Spacing & Themes)
+   ========================================================================== */
+:root, [data-theme="a"] {
+  --bg: #0B1921;
+  --s1: #11262F;
+  --s2: #173440;
+  --tx: #F3F7F8;
+  --mu: #A9BAC2;
+  --ln: #24424F;
+  --ac: #F5A524;
+  --ink: #0B1921;
+  --ok: #34D399;
+  --er: #F87171;
+
+  /* Escala de espaciado 8pt */
+  --sp-1: 8px;
+  --sp-2: 16px;
+  --sp-3: 24px;
+  --sp-4: 32px;
+  --sp-6: 48px;
+  --sp-8: 64px;
+
+  /* Tipografía y radios */
+  --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 9999px;
+}
+
+[data-theme="b"] {
+  --bg: #F4F7FA;
+  --s1: #FFFFFF;
+  --s2: #E8EFF5;
+  --tx: #10243B;
+  --mu: #4B5E73;
+  --ln: #CBD6E2;
+  --ac: #0E7C86;
+  --ink: #FFFFFF;
+  --ok: #047857;
+  --er: #B91C1C;
+}
+
+[data-theme="c"] {
+  --bg: #0F1412;
+  --s1: #171E1B;
+  --s2: #1F2A25;
+  --tx: #EEF4F1;
+  --mu: #A3B3AB;
+  --ln: #2B3A33;
+  --ac: #3DDC97;
+  --ink: #0F1412;
+  --ok: #3DDC97;
+  --er: #F87171;
+}
+
+/* ==========================================================================
+   2. RESET Y TIPOGRAFÍA BASE
+   ========================================================================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg);
+  color: var(--tx);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 var(--sp-3);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ac);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+h1, h2, h3, h4 {
+  color: var(--tx);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+/* ==========================================================================
+   3. BOTONES Y COMPONENTES REUTILIZABLES
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ac);
+  color: var(--ink);
+  border: 0;
+  border-radius: var(--radius-md);
+  padding: 13px 22px;
+  min-height: 44px; /* Touch target accesible WCAG */
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s ease, filter 0.15s ease, background-color 0.2s ease;
+}
+
+.btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: none;
+}
+
+.btn[disabled], .btn[aria-busy="true"] {
+  opacity: 0.7;
+  cursor: wait;
+  pointer-events: none;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+  transform: translateX(-120%);
+}
+
+.btn:hover::after {
+  transform: translateX(120%);
+  transition: transform 0.7s;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--tx);
+  border: 1px solid var(--ln);
+}
+
+.btn.ghost::after {
+  display: none;
+}
+
+.btn.ghost:hover {
+  background: color-mix(in srgb, var(--tx) 8%, transparent);
+}
+
+.mini {
+  background: transparent;
+  border: 1px solid var(--ac);
+  color: var(--ac);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  min-height: 44px; /* Touch target accesible */
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.mini:hover {
+  background: var(--ac);
+  color: var(--ink);
+}
+
+.tag {
+  font-size: 0.7rem;
+  border: 1px solid var(--ln);
+  border-radius: var(--radius-pill);
+  padding: 2px 8px;
+  color: var(--mu);
+  margin-left: 6px;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   4. HEADER Y NAVEGACIÓN
+   ========================================================================== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--ln);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  gap: var(--sp-2);
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 1.15rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.logo b {
+  color: var(--ac);
+}
+
+.links {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.links a:not(.btn) {
+  text-decoration: none;
+  color: var(--mu);
+  transition: color 0.15s ease;
+}
+
+.links a:not(.btn):hover {
+  color: var(--tx);
+}
+
+/* ==========================================================================
+   5. HERO Y PLANIFICADOR INTERACTIVO
+   ========================================================================== */
+main {
+  position: relative;
+}
+
+.bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 760px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bg i {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.28;
+  background: var(--ac);
+  animation: drift 14s ease-in-out infinite alternate;
+}
+
+.bg i:nth-child(1) {
+  left: -120px;
+  top: -80px;
+}
+
+.bg i:nth-child(2) {
+  right: -80px;
+  top: 180px;
+  background: var(--s2);
+  opacity: 0.9;
+  animation-duration: 18s;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: var(--sp-6);
+  padding: 56px 0 72px;
+  align-items: center;
+}
+
+h1 {
+  font-size: clamp(2rem, 5.2vw, 3.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  text-wrap: balance;
+}
+
+.u {
+  background: linear-gradient(90deg, var(--ac), color-mix(in srgb, var(--ac) 50%, var(--tx)), var(--ac)) 0 0 / 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  animation: shine 4s linear infinite;
+}
+
+.lead {
+  color: var(--mu);
+  font-size: 1.1rem;
+  margin: 20px 0 28px;
+  max-width: 32em;
+}
+
+.cta {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.note {
+  font-size: 0.85rem;
+  color: var(--mu);
+  margin-top: 14px;
+}
+
+.card {
+  background: var(--s1);
+  border: 1px solid var(--ln);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.tilt {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease-out;
+}
+
+.tilt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--ac) 18%, transparent), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.tilt:hover::before {
+  opacity: 1;
+}
+
+.pl-h {
+  margin-bottom: var(--sp-2);
+}
+
+.pl-h strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 2px;
+}
+
+.pl-h span {
+  font-size: 0.85rem;
+  color: var(--mu);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: auto repeat(5, 1fr);
+  gap: 6px;
+  align-items: center;
+}
+
+.grid span {
+  font-size: 0.75rem;
+  color: var(--mu);
+  text-align: center;
+}
+
+.grid span.r {
+  text-align: left;
+  padding-right: 6px;
+  font-weight: 600;
+}
+
+.cell {
+  height: 42px;
+  min-width: 42px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--ln);
+  background: var(--s2);
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s, border-color 0.15s;
+}
+
+.cell:hover {
+  border-color: var(--ac);
+}
+
+.cell[aria-pressed="true"] {
+  background: var(--ac);
+  border-color: var(--ac);
+}
+
+.cell:active {
+  transform: scale(0.94);
+}
+
+.hint .cell[data-k="1-1"], .hint .cell[data-k="2-1"], .hint .cell[data-k="3-0"] {
+  animation: ping 1.8s infinite;
+}
+
+.cell.pop {
+  animation: pop 0.3s;
+}
+
+.meter {
+  height: 6px;
+  background: var(--s2);
+  border-radius: var(--radius-pill);
+  margin-top: 14px;
+  overflow: hidden;
+}
+
+#bar, #fbar {
+  height: 100%;
+  width: 0;
+  background: var(--ac);
+  transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cnt {
+  font-size: 0.8rem;
+  color: var(--mu);
+  margin-top: 8px;
+}
+
+.res {
+  margin-top: var(--sp-2);
+  display: grid;
+  gap: 10px;
+  min-height: 92px;
+  align-content: start;
+}
+
+.empty {
+  font-size: 0.9rem;
+  color: var(--mu);
+  border: 1px dashed var(--ln);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.sh {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--ln);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: var(--bg);
+  animation: in 0.25s ease-out;
+}
+
+.sh:nth-child(2) { animation-delay: 0.08s; }
+.sh:nth-child(3) { animation-delay: 0.16s; }
+.sh:nth-child(4) { animation-delay: 0.24s; }
+
+.sh small {
+  display: block;
+  color: var(--mu);
+  font-size: 0.78rem;
+  margin-top: 2px;
+}
+
+/* ==========================================================================
+   6. SECCIÓN "CÓMO FUNCIONA" (#como)
+   ========================================================================== */
+section {
+  padding: var(--sp-8) 0;
+}
+
+h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+
+.sub {
+  color: var(--mu);
+  max-width: 38em;
+  margin-bottom: var(--sp-4);
+  font-size: 1.05rem;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-3);
+  list-style: none;
+  counter-reset: s;
+}
+
+.steps li {
+  counter-increment: s;
+  padding: 22px 0 0;
+  border-top: 2px solid var(--ln);
+  transition: border-color 0.2s;
+}
+
+.steps li:hover {
+  border-top-color: var(--ac);
+}
+
+.steps li::before {
+  content: counter(s);
+  display: block;
+  font-weight: 800;
+  font-size: 2rem;
+  color: var(--ac);
+  margin-bottom: 6px;
+}
+
+.steps h3 {
+  font-size: 1.15rem;
+  margin-bottom: 6px;
+}
+
+.steps p {
+  color: var(--mu);
+  font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   7. SECCIÓN EMPRESAS, FAQ Y FOOTER
+   ========================================================================== */
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 var(--sp-2);
+}
+
+details {
+  border-bottom: 1px solid var(--ln);
+  padding: 16px 0;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.05rem;
+  list-style: none;
+  position: relative;
+  padding-right: 24px;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::after {
+  content: "+";
+  position: absolute;
+  right: 0;
+  font-weight: 800;
+  color: var(--ac);
+  font-size: 1.2rem;
+}
+
+details[open] summary::after {
+  content: "–";
+}
+
+details p {
+  color: var(--mu);
+  margin-top: 8px;
+  max-width: 44em;
+  line-height: 1.6;
+}
+
+footer {
+  border-top: 1px solid var(--ln);
+  padding: 28px 0;
+  color: var(--mu);
+  font-size: 0.85rem;
+}
+
+footer button {
+  background: none;
+  border: 0;
+  color: inherit;
+  text-decoration: underline;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   8. UTILITARIOS, TOAST, DIALOG Y STICKY
+   ========================================================================== */
+.hide {
+  display: none !important;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 20px);
+  background: var(--tx);
+  color: var(--bg);
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 50;
+  max-width: 90vw;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.toast.on {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+dialog {
+  margin: auto;
+  max-width: 520px;
+  width: 92%;
+  background: var(--s1);
+  color: var(--tx);
+  border: 1px solid var(--ln);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+}
+
+dialog p {
+  color: var(--mu);
+  margin: 12px 0 18px;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+#sp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: var(--ac);
+  z-index: 60;
+  transition: width 0.05s linear;
+}
+
+#mcta {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 30;
+  transform: translateY(140%);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+#mcta.on {
+  transform: none;
+}
+
+.rv {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.rv.on {
+  opacity: 1;
+  transform: none;
+}
+
+/* ==========================================================================
+   9. ANIMACIONES KEYFRAMES
+   ========================================================================== */
+@keyframes drift {
+  to { transform: translate(60px, 40px) scale(1.15); }
+}
+
+@keyframes up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes shine {
+  to { background-position: 200% 0; }
+}
+
+@keyframes ping {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ac) 55%, transparent); }
+  70%, 100% { box-shadow: 0 0 0 10px transparent; }
+}
+
+@keyframes pop {
+  50% { transform: scale(1.25); }
+}
+
+@keyframes in {
+  from { opacity: 0; transform: translateY(6px); }
+}
+
+.hero h1, .hero .lead, .hero .cta, .hero .note, .hero .card {
+  animation: up 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.hero h1 { animation-delay: 0.05s; }
+.hero .lead { animation-delay: 0.2s; }
+.hero .cta { animation-delay: 0.35s; }
+.hero .note { animation-delay: 0.5s; }
+.hero .card { animation-delay: 0.3s; }
+
+.rv.on .steps li {
+  animation: up 0.6s backwards;
+}
+.rv.on .steps li:nth-child(2) { animation-delay: 0.15s; }
+.rv.on .steps li:nth-child(3) { animation-delay: 0.3s; }
+
+/* ==========================================================================
+   10. MEDIA QUERIES RESPONSIVAS Y ACCESIBILIDAD
+   ========================================================================== */
+@media (max-width: 820px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
+    padding-top: 32px;
+  }
+  .steps {
+    grid-template-columns: 1fr;
+  }
+  .links a:not(.btn) {
+    display: none;
+  }
+  .two {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 821px) {
+  #mcta {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .rv {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,11 @@
+# Sistema y editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Archivos de respaldo y temporales
+*.tmp
+*.bak
+*.log
