@@ -1,0 +1,391 @@
+/**
+ * Mi Cachuelito - Formulario y Selector de Horarios
+ * Sistema de Grilla de 12 columnas, espaciado de 8pt, accesibilidad WCAG 2.1 AA,
+ * prevención de layout shifts (CLS = 0) y touch targets mínimos de 44x44px.
+ */
+
+/* ==========================================================================
+   1. SECCIÓN DE REGISTRO Y CONTENEDOR PRINCIPAL
+   ========================================================================== */
+.reg {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: var(--sp-6);
+  align-items: start;
+}
+
+.reg ul {
+  list-style: none;
+  color: var(--mu);
+  margin-top: var(--sp-3);
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.reg li {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.reg li::before {
+  content: "✓";
+  color: var(--ok);
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+/* ==========================================================================
+   2. GRILLA DE 12 COLUMNAS Y CONTENEDORES DE CAMPOS
+   ========================================================================== */
+.form-grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--sp-2);
+  row-gap: var(--sp-1);
+}
+
+.col-12 {
+  grid-column: span 12;
+}
+
+.col-6 {
+  grid-column: span 6;
+}
+
+.fg {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--sp-1);
+}
+
+label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--tx);
+  margin-bottom: var(--sp-1);
+}
+
+label .req {
+  color: var(--er);
+  margin-left: 2px;
+  font-weight: bold;
+}
+
+/* ==========================================================================
+   3. INPUTS, SELECTS Y TOUCH TARGETS
+   ========================================================================== */
+input, select {
+  width: 100%;
+  padding: 12px 14px;
+  min-height: 46px; /* Touch target superior a 44px */
+  border-radius: var(--radius-md);
+  border: 1px solid var(--ln);
+  background: var(--bg);
+  color: var(--tx);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+input::placeholder {
+  color: color-mix(in srgb, var(--mu) 60%, transparent);
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--ac);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ac) 35%, transparent);
+}
+
+input[aria-invalid="true"], select[aria-invalid="true"] {
+  border-color: var(--er);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--er) 25%, transparent);
+}
+
+/* Espacio reservado estrictamente para evitar saltos de diseño (CLS = 0) */
+.err {
+  color: var(--er);
+  font-size: 0.8rem;
+  font-weight: 500;
+  min-height: 1.25rem;
+  margin-top: 4px;
+  line-height: 1.2;
+  transition: opacity 0.15s ease;
+}
+
+/* ==========================================================================
+   4. SELECTOR OBLIGATORIO DE HORARIOS Y TURNOS
+   ========================================================================== */
+.schedule-fieldset {
+  border: 1px solid var(--ln);
+  border-radius: var(--radius-md);
+  padding: var(--sp-2);
+  margin-bottom: var(--sp-1);
+  background: color-mix(in srgb, var(--s2) 40%, transparent);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.schedule-fieldset[aria-invalid="true"] {
+  border-color: var(--er);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--er) 25%, transparent);
+}
+
+.schedule-legend {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--tx);
+  padding: 0 var(--sp-1);
+  margin-bottom: var(--sp-1);
+}
+
+.schedule-legend .sub-legend {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: normal;
+  color: var(--mu);
+  margin-top: 2px;
+}
+
+/* Chips para Turnos de 3 Horas */
+.shift-chips-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-1);
+  margin-bottom: var(--sp-2);
+}
+
+.shift-chip {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 56px; /* Touch target accesible */
+  padding: 8px 10px;
+  background: var(--bg);
+  border: 1px solid var(--ln);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+
+.shift-chip input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+.shift-chip:hover {
+  border-color: var(--ac);
+}
+
+.shift-chip.selected {
+  background: color-mix(in srgb, var(--ac) 20%, var(--bg));
+  border-color: var(--ac);
+  box-shadow: 0 0 0 1px var(--ac);
+}
+
+.shift-chip:focus-within {
+  outline: 2px solid var(--ac);
+  outline-offset: 2px;
+}
+
+.shift-chip strong {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--tx);
+}
+
+.shift-chip span {
+  font-size: 0.72rem;
+  color: var(--mu);
+}
+
+/* Chips de Días de la Semana */
+.days-chips-group {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.day-chip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px; /* Touch target accesible */
+  background: var(--bg);
+  border: 1px solid var(--ln);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.day-chip input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+.day-chip:hover {
+  border-color: var(--ac);
+}
+
+.day-chip.selected {
+  background: var(--ac);
+  color: var(--ink);
+  border-color: var(--ac);
+}
+
+.day-chip:focus-within {
+  outline: 2px solid var(--ac);
+  outline-offset: 2px;
+}
+
+/* Indicador de Resumen del Horario Seleccionado */
+.schedule-summary-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--s2);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  margin-top: var(--sp-1);
+  font-size: 0.8rem;
+  color: var(--mu);
+}
+
+.schedule-summary-badge b {
+  color: var(--tx);
+}
+
+/* ==========================================================================
+   5. CHECKBOX DE CONSENTIMIENTO Y BOTÓN DE ENVÍO
+   ========================================================================== */
+.chk {
+  display: flex;
+  gap: var(--sp-1);
+  align-items: flex-start;
+  font-size: 0.85rem;
+  color: var(--mu);
+  margin-top: var(--sp-1);
+  margin-bottom: 2px;
+  cursor: pointer;
+}
+
+.chk input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  min-height: 20px;
+  accent-color: var(--ac);
+  margin-top: 2px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.chk label {
+  font-weight: 400;
+  margin: 0;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.chk button {
+  background: none;
+  border: 0;
+  color: var(--ac);
+  text-decoration: underline;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+#sb {
+  width: 100%;
+  margin-top: var(--sp-2);
+}
+
+/* ==========================================================================
+   6. ESTADO DE ÉXITO (CONFIRMACIÓN POST-ENVÍO)
+   ========================================================================== */
+.okp {
+  text-align: center;
+  padding: var(--sp-3) var(--sp-1);
+}
+
+.okp h3 {
+  font-size: 1.4rem;
+  margin: var(--sp-1) 0;
+}
+
+.okp p {
+  color: var(--mu);
+  margin-bottom: var(--sp-3);
+  font-size: 0.95rem;
+}
+
+.okp .cta {
+  justify-content: center;
+}
+
+.ck circle {
+  stroke-dasharray: 152;
+  stroke-dashoffset: 152;
+  animation: dr 0.6s forwards;
+}
+
+.ck path {
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: dr 0.5s 0.5s forwards;
+}
+
+@keyframes dr {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ck circle, .ck path {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ==========================================================================
+   7. RESPONSIVIDAD DEL FORMULARIO (Mobile / Tablet / Desktop)
+   ========================================================================== */
+@media (max-width: 820px) {
+  .reg {
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
+  }
+  .col-6 {
+    grid-column: span 12; /* En móviles los campos ocupan todo el ancho */
+  }
+  .shift-chips-group {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: var(--sp-2);
+  }
+  .days-chips-group {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+  }
+  .day-chip {
+    font-size: 0.75rem;
+    min-height: 44px;
+  }
+}
