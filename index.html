@@ -68,9 +68,14 @@
       </div>
 
       <div class="card tilt" id="tilt" aria-labelledby="pl-t">
-        <div class="pl-h">
-          <strong id="pl-t">Prueba cómo funcionaría</strong>
-          <span>Marca tus horas libres de la semana y mira turnos de ejemplo.</span>
+        <div class="pl-h pl-header-row">
+          <div>
+            <strong id="pl-t">Prueba cómo funcionaría</strong>
+            <span>Marca tus horas libres de la semana y mira turnos de ejemplo.</span>
+          </div>
+          <button type="button" class="btn-reset-simulator" id="btn-reset-simulator" disabled aria-label="Limpiar todos los horarios seleccionados">
+            Limpiar todo
+          </button>
         </div>
         <div class="grid hint" id="grid" role="group" aria-label="Horas libres interactivas"></div>
         <div class="meter" aria-hidden="true">
@@ -144,12 +149,17 @@
                     <div class="summary-info">
                       <span class="summary-label">Horario seleccionado en el simulador:</span>
                       <div class="summary-chips-wrap" id="summary-badges-container">
-                        <!-- Badges dinámicos de turnos y días -->
+                        <!-- Badges dinámicos de turnos y días con botón de eliminación individual (×) -->
                       </div>
                     </div>
-                    <button type="button" class="btn-change-schedule" id="btn-change-schedule" title="Modificar turnos en el simulador superior">
-                      Cambiar horario ↑
-                    </button>
+                    <div class="summary-actions-row">
+                      <button type="button" class="btn-change-schedule" id="btn-change-schedule" title="Modificar turnos en el simulador superior">
+                        Cambiar horario ↑
+                      </button>
+                      <button type="button" class="btn-clear-schedule" id="btn-clear-schedule" title="Borrar todos los horarios y reiniciar">
+                        Limpiar selección ×
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

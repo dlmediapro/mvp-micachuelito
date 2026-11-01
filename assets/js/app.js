@@ -60,6 +60,7 @@
 
   const sel = new Set();
   let plannerUsed = false;
+  let renderPlanner = function () {};
   const gridEl = $("grid");
 
   // Estado global reactivo para la disponibilidad del usuario
@@ -101,6 +102,83 @@
     }, 2600);
   };
 
+  // Limpiar toda la selección de horarios (Transición a estado EMPTY)
+  window.clearAllSchedules = function (scrollToTop) {
+    sel.clear();
+    window.scheduleState.interestedShift = null;
+    window.scheduleState.selectedShifts.clear();
+    window.scheduleState.selectedDays.clear();
+    window.scheduleState.hasSelection = false;
+    window.scheduleState.vacanciesCount = 0;
+
+    // Desmarcar todas las celdas en el DOM
+    if (gridEl) {
+      gridEl.querySelectorAll(".cell").forEach(b => {
+        b.setAttribute("aria-pressed", "false");
+      });
+    }
+
+    try {
+      localStorage.removeItem(SCHEDULE_STORAGE_KEY);
+    } catch (e) {}
+
+    renderPlanner();
+
+    if (scrollToTop) {
+      window.highlightAndScrollToSchedule();
+      showToast("Selección de horarios restablecida.");
+    }
+  };
+
+  // Deseleccionar un turno específico (Mañana, Tarde o Noche)
+  window.removeScheduleShift = function (shiftName) {
+    const shiftIndex = S.indexOf(shiftName);
+    if (shiftIndex === -1) return;
+
+    // Eliminar todas las celdas de este turno (di-shiftIndex)
+    for (let di = 0; di < D.length; di++) {
+      const k = di + "-" + shiftIndex;
+      sel.delete(k);
+      if (gridEl) {
+        const b = gridEl.querySelector('.cell[data-k="' + k + '"]');
+        if (b) b.setAttribute("aria-pressed", "false");
+      }
+    }
+
+    if (window.scheduleState.interestedShift) {
+      const matchShift = SH.find(x => x.t === window.scheduleState.interestedShift.title);
+      if (matchShift && S[matchShift.s] === shiftName) {
+        window.scheduleState.interestedShift = null;
+      }
+    }
+
+    renderPlanner();
+    showToast("Turno " + shiftName + " eliminado.");
+  };
+
+  // Deseleccionar un día específico (Lun, Mar, Mié, Jue o Vie)
+  window.removeScheduleDay = function (dayName) {
+    const dayIndex = D.indexOf(dayName);
+    if (dayIndex === -1) return;
+
+    // Eliminar todas las celdas de este día (dayIndex-si)
+    for (let si = 0; si < S.length; si++) {
+      const k = dayIndex + "-" + si;
+      sel.delete(k);
+      if (gridEl) {
+        const b = gridEl.querySelector('.cell[data-k="' + k + '"]');
+        if (b) b.setAttribute("aria-pressed", "false");
+      }
+    }
+
+    if (window.scheduleState.interestedShift && window.scheduleState.interestedShift.day === dayName) {
+      window.scheduleState.interestedShift = null;
+    }
+
+    renderPlanner();
+    showToast("Día " + dayName + " eliminado.");
+  };
+
   if (gridEl) {
     gridEl.innerHTML = "<span></span>" +
       D.map(d => `<span>${d}</span>`).join("") +
@@ -113,7 +191,7 @@
         }).join("")
       ).join("");
 
-    function renderPlanner() {
+    renderPlanner = function () {
       const resEl = $("res");
       const m = SH.map((x, i) => ({ ...x, i })).filter(x => sel.has(x.d + "-" + x.s));
 
@@ -150,6 +228,12 @@
 
       window.scheduleState.hasSelection = sel.size > 0 || Boolean(window.scheduleState.interestedShift);
       window.scheduleState.vacanciesCount = m.length;
+
+      // Botón de reset en el simulador superior
+      const btnResetSim = $("btn-reset-simulator");
+      if (btnResetSim) {
+        btnResetSim.disabled = sel.size === 0 && !window.scheduleState.interestedShift;
+      }
 
       // Guardar en localStorage
       try {
@@ -226,6 +310,16 @@
             if (nomInput) nomInput.focus();
           }, 500);
         }
+      });
+    }
+
+    
+    // Escuchar botón de limpiar en el simulador superior
+    const btnResetSim = $("btn-reset-simulator");
+    if (btnResetSim) {
+      btnResetSim.addEventListener("click", () => {
+        window.clearAllSchedules(false);
+        showToast("Horario reiniciado. Marca tus horas disponibles.");
       });
     }
 

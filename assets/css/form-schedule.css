@@ -76,10 +76,12 @@ label .req {
 /* ==========================================================================
    3. INPUTS, SELECTS Y TOUCH TARGETS
    ========================================================================== */
-input, select {
+input,
+select {
   width: 100%;
   padding: 12px 14px;
-  min-height: 46px; /* Touch target superior a 44px */
+  min-height: 46px;
+  /* Touch target superior a 44px */
   border-radius: var(--radius-md);
   border: 1px solid var(--ln);
   background: var(--bg);
@@ -93,13 +95,15 @@ input::placeholder {
   color: color-mix(in srgb, var(--mu) 60%, transparent);
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
   outline: none;
   border-color: var(--ac);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--ac) 35%, transparent);
 }
 
-input[aria-invalid="true"], select[aria-invalid="true"] {
+input[aria-invalid="true"],
+select[aria-invalid="true"] {
   border-color: var(--er);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--er) 25%, transparent);
 }
@@ -119,7 +123,8 @@ input[aria-invalid="true"], select[aria-invalid="true"] {
    4. GUARDIÁN DE INTERACCIÓN Y RESUMEN VISUAL DE HORARIO
    ========================================================================== */
 #schedule-guardian-container {
-  min-height: 104px; /* Reserva de espacio estricta para prevenir CLS = 0 */
+  min-height: 104px;
+  /* Reserva de espacio estricta para prevenir CLS = 0 */
   margin-bottom: var(--sp-2);
   display: flex;
   flex-direction: column;
@@ -226,32 +231,34 @@ input[aria-invalid="true"], select[aria-invalid="true"] {
 .summary-chips-wrap {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
   align-items: center;
+}
+
+.badge-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: var(--radius-pill);
+  padding: 4px 6px 4px 10px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  user-select: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .badge-shift {
-  display: inline-flex;
-  align-items: center;
   background: color-mix(in srgb, var(--ac) 20%, var(--bg));
   color: var(--ac);
   border: 1px solid var(--ac);
-  font-weight: 700;
-  font-size: 0.8rem;
-  padding: 4px 10px;
-  border-radius: var(--radius-pill);
 }
 
 .badge-day {
-  display: inline-flex;
-  align-items: center;
   background: var(--bg);
   color: var(--tx);
   border: 1px solid var(--ln);
-  font-weight: 600;
-  font-size: 0.78rem;
-  padding: 4px 8px;
   border-radius: var(--radius-sm);
+  padding: 4px 6px 4px 8px;
 }
 
 .badge-match {
@@ -261,9 +268,58 @@ input[aria-invalid="true"], select[aria-invalid="true"] {
   color: var(--ok);
   border: 1px solid var(--ok);
   font-weight: 600;
-  font-size: 0.75rem;
-  padding: 4px 8px;
+  font-size: 0.78rem;
+  padding: 4px 10px;
   border-radius: var(--radius-pill);
+}
+
+/* Botón de eliminación individual (×) con touch target accesible >= 44x44px */
+.badge-remove {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 24px;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 2px;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.badge-remove::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px; /* Hit target accesible WCAG 2.1 AA */
+}
+
+.badge-remove:hover {
+  background: color-mix(in srgb, var(--tx) 20%, transparent);
+  transform: scale(1.15);
+}
+
+.badge-remove:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 1px;
+}
+
+/* Fila de acciones del resumen */
+.summary-actions-row {
+  display: flex;
+  gap: var(--sp-1);
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .btn-change-schedule {
@@ -288,6 +344,72 @@ input[aria-invalid="true"], select[aria-invalid="true"] {
   color: var(--ac);
   border-color: var(--ac);
   background: color-mix(in srgb, var(--ac) 8%, transparent);
+}
+
+.btn-clear-schedule {
+  background: transparent;
+  color: var(--mu);
+  border: 1px solid var(--ln);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+}
+
+.btn-clear-schedule:hover {
+  color: var(--er);
+  border-color: var(--er);
+  background: color-mix(in srgb, var(--er) 10%, transparent);
+}
+
+.btn-clear-schedule:focus-visible {
+  outline: 2px solid var(--er);
+  outline-offset: 2px;
+}
+
+/* Cabecera del Simulador en el Hero con botón Limpiar todo */
+.pl-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-2);
+}
+
+.btn-reset-simulator {
+  background: transparent;
+  border: 1px solid var(--ln);
+  color: var(--mu);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  min-height: 40px;
+  min-width: 44px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.15s, border-color 0.15s, background-color 0.15s, opacity 0.15s;
+}
+
+.btn-reset-simulator:hover:not(:disabled) {
+  color: var(--ac);
+  border-color: var(--ac);
+  background: color-mix(in srgb, var(--ac) 10%, transparent);
+}
+
+.btn-reset-simulator:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* ==========================================================================
@@ -372,11 +494,15 @@ input[aria-invalid="true"], select[aria-invalid="true"] {
 }
 
 @keyframes dr {
-  to { stroke-dashoffset: 0; }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ck circle, .ck path {
+
+  .ck circle,
+  .ck path {
     stroke-dashoffset: 0;
   }
 }
@@ -389,24 +515,38 @@ input[aria-invalid="true"], select[aria-invalid="true"] {
     grid-template-columns: 1fr;
     gap: var(--sp-4);
   }
+
   .col-6 {
-    grid-column: span 12; /* En móviles los campos ocupan todo el ancho */
+    grid-column: span 12;
+    /* En móviles los campos ocupan todo el ancho */
   }
+
   .schedule-warning-banner {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--sp-2);
   }
+
   .btn-warning-action {
     width: 100%;
     text-align: center;
   }
+
   .summary-header {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--sp-2);
   }
-  .btn-change-schedule {
+
+  .summary-actions-row {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .btn-change-schedule,
+  .btn-clear-schedule {
     width: 100%;
   }
 }
@@ -415,8 +555,8 @@ input[aria-invalid="true"], select[aria-invalid="true"] {
   .card {
     padding: var(--sp-2);
   }
+
   .warning-icon {
     display: none;
   }
 }
-

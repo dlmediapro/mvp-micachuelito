@@ -87,26 +87,26 @@
       // Badges para turnos seleccionados
       if (state.selectedShifts && state.selectedShifts.size > 0) {
         state.selectedShifts.forEach(shift => {
-          badgesHtml.push(`<span class="badge-shift">${shift}</span>`);
+          badgesHtml.push(`<span class="badge-chip badge-shift"><span class="badge-text">${shift}</span><button type="button" class="badge-remove" aria-label="Eliminar turno ${shift}" data-type="shift" data-value="${shift}">×</button></span>`);
         });
       }
 
       // Badges para días seleccionados
       if (state.selectedDays && state.selectedDays.size > 0) {
         state.selectedDays.forEach(day => {
-          badgesHtml.push(`<span class="badge-day">${day}</span>`);
+          badgesHtml.push(`<span class="badge-chip badge-day"><span class="badge-text">${day}</span><button type="button" class="badge-remove" aria-label="Eliminar día ${day}" data-type="day" data-value="${day}">×</button></span>`);
         });
       }
 
       // Badge para vacante específica si el usuario hizo clic en "Me interesa"
       if (state.interestedShift) {
-        badgesHtml.push(`<span class="badge-match" title="Turno preferido">⭐ ${state.interestedShift.title}</span>`);
+        badgesHtml.push(`<span class="badge-chip badge-match" title="Turno preferido"><span class="badge-text">⭐ ${state.interestedShift.title}</span></span>`);
         if (turnoHidden) turnoHidden.value = state.interestedShift.label || state.interestedShift.title;
       }
 
       // Badge de compatibilidad si hay vacantes filtradas
       if (state.vacanciesCount > 0) {
-        badgesHtml.push(`<span class="badge-match">${state.vacanciesCount} turno(s) compatible(s)</span>`);
+        badgesHtml.push(`<span class="badge-chip badge-match"><span class="badge-text">${state.vacanciesCount} turno(s) compatible(s)</span></span>`);
       }
 
       if (badgesContainer) {
@@ -261,6 +261,32 @@
       btnChange.addEventListener("click", () => {
         if (typeof window.highlightAndScrollToSchedule === "function") {
           window.highlightAndScrollToSchedule();
+        }
+      });
+    }
+
+    // Botón de limpiar selección completa en el formulario
+    const btnClear = $("btn-clear-schedule");
+    if (btnClear) {
+      btnClear.addEventListener("click", () => {
+        if (typeof window.clearAllSchedules === "function") {
+          window.clearAllSchedules(true);
+        }
+      });
+    }
+
+    // Delegación de clics en los botones de cierre (×) de cada chip
+    const badgesContainer = $("summary-badges-container");
+    if (badgesContainer) {
+      badgesContainer.addEventListener("click", (e) => {
+        const btn = e.target.closest(".badge-remove");
+        if (!btn) return;
+        const type = btn.dataset.type;
+        const val = btn.dataset.value;
+        if (type === "shift" && typeof window.removeScheduleShift === "function") {
+          window.removeScheduleShift(val);
+        } else if (type === "day" && typeof window.removeScheduleDay === "function") {
+          window.removeScheduleDay(val);
         }
       });
     }
